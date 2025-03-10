@@ -54,7 +54,7 @@ function Pizzas() {
             </thead>
             <tbody>
               {
-                pizzas.map(function(p){
+                pizzas.map(function(p:PizzaDTO){
                   const { name, id, sauce, toppings } = p;
                   const topping = toppings?.map(t => t.name).join(', ');
 
