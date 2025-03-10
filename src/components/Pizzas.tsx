@@ -38,7 +38,7 @@ function Pizzas() {
         pizzas.length === 0 
         ? <p>No pizzas available.</p>
         : pizzas.map(p => {
-            const toppings = p.toppings.map(t => {
+            const toppings = p.toppings && p.toppings.map(t => {
                 return (
                     <div key={t.id}>
                         <p>{t.name}</p>
@@ -49,7 +49,7 @@ function Pizzas() {
             
             return <div key={p.id}>
                 {p.name}
-                {p.sauce.name}
+                {p.sauce && p.sauce.name ? p.sauce.name : null}
                 {toppings}
             </div>
           })
