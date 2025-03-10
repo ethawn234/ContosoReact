@@ -1,7 +1,8 @@
-
 https://github.com/acacode/swagger-typescript-api
 https://learn.microsoft.com/en-us/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-8.0&tabs=visual-studio-code
 https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags
 https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-rest-api-consumption/
+
 # working cmd
-NODE_EXTRA_CA_CERTS=$(pwd)/dev-cert.pem npx swagger-typescript-api -p https://localhost:7030/swagger/v1/swagger.json -o ./src/types -n ContosoPizzaAPI.ts --modular
+
+NODE_EXTRA_CA_CERTS=$(pwd)/dev-cert.pem npx swagger-typescript-api -p https://localhost:7030/swagger/v1/swagger.json -o ./src/temp/ -n ContosoPizzaAPI.ts --modular
