@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
-import { ContosoPizza } from './api/ContosoPizza';
-import { PizzaDTO, Topping } from './types/data-contracts';
+import { ContosoPizza } from '../api/ContosoPizza';
+import { PizzaDTO } from '../types/data-contracts';
 
 const api = new ContosoPizza({
   baseUrl: "https://localhost:7030"
