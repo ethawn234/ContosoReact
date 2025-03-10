@@ -12,7 +12,7 @@ const api = new ContosoPizza({
 function Pizzas() {
   const [pizzas, setPizzas] = useState<PizzaDTO[]>([])
 
-  async function getData() {
+  async function getData(): Promise<PizzaDTO[] | undefined>  {
     try {
       const response = api.contosoPizzaList();
       const json = await response;
@@ -69,7 +69,7 @@ function Pizzas() {
                     <tr key={p.id}>
                       {
                         pizzaKeys.map(key => (
-                          <td>{String(pizza[key])}</td>
+                          <td key={key}>{String(pizza[key])}</td>
                         ))
                       }
                     </tr>
