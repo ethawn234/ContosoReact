@@ -1,11 +1,23 @@
 import { useState, useEffect } from 'react'
 
 import { ContosoPizza } from '../api/ContosoPizza';
-import { PizzaDTO } from '../types/data-contracts';
+import { PizzaDTO, Sauce, Topping } from '../types/data-contracts';
 
 const api = new ContosoPizza({
   baseUrl: "https://localhost:7030"
 });
+
+// type PizzaDTOtype = {
+//   /** @format int32 */
+//   id?: number;
+//   /**
+//    * @minLength 1
+//    * @maxLength 100
+//    */
+//   name: string;
+//   sauce?: Sauce;
+//   toppings?: Topping[] | null;
+// }
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState<PizzaDTO[]>([])
@@ -32,27 +44,38 @@ function Pizzas() {
     fetchData();
   }, []);
 
+  // Helper function to extract keys from a generic type
+  const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
+  const pizzaKeys = pizzas.length > 0 ? getColHeaders(pizzas[0]) : [];
+
   return (
     <>
       {
         pizzas.length === 0 
         ? <p>No pizzas available.</p>
-        : pizzas.map(p => {
-            const toppings = p.toppings && p.toppings.map(t => {
-                return (
-                    <div key={t.id}>
-                        <p>{t.name}</p>
-                        <p>{t.calories}</p>
-                    </div>
-                )
-            })
-            
-            return <div key={p.id}>
-                {p.name}
-                {p.sauce && p.sauce.name ? p.sauce.name : null}
-                {toppings}
-            </div>
-          })
+        : (
+          <table>
+            <thead>
+              <tr>
+                {
+                  pizzas.length > 0 &&
+                  pizzaKeys.map(key => <th key={key}>{key.toString().toUpperCase()}</th>)
+                }
+              </tr>
+            </thead>
+            <tbody>
+              {pizzas.map(p => (
+                <tr key={p.id}>
+                  {
+                    pizzaKeys.map(key => (
+                      <td>{String(p[key])}</td>
+                    ))
+                  }
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
       }
     </>
   )
