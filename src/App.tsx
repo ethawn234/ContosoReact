@@ -1,5 +1,5 @@
 
-import Pizzas from './Pizzas.tsx'
+import Pizzas from './components/Pizzas.tsx'
 
 function App() {
   return (

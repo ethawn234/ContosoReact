@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { Pizza, PizzaDTO, ProblemDetails } from "./data-contracts";
+import { Pizza, PizzaDTO, ProblemDetails } from "../types/data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {

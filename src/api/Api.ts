@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { Coupon } from "./data-contracts";
+import { Coupon } from "../types/data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
 export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {

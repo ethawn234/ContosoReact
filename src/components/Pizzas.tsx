@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { ContosoPizza } from './types/ContosoPizza';
+import { ContosoPizza } from './api/ContosoPizza';
 import { PizzaDTO, Topping } from './types/data-contracts';
 
 const api = new ContosoPizza({
