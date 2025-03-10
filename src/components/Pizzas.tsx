@@ -1,23 +1,13 @@
 import { useState, useEffect } from 'react'
 
 import { ContosoPizza } from '../api/ContosoPizza';
-import { PizzaDTO, Sauce, Topping } from '../types/data-contracts';
+import { PizzaDTO } from '../types/data-contracts';
+
+import './Pizza.css'
 
 const api = new ContosoPizza({
   baseUrl: "https://localhost:7030"
 });
-
-// type PizzaDTOtype = {
-//   /** @format int32 */
-//   id?: number;
-//   /**
-//    * @minLength 1
-//    * @maxLength 100
-//    */
-//   name: string;
-//   sauce?: Sauce;
-//   toppings?: Topping[] | null;
-// }
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState<PizzaDTO[]>([])
@@ -26,7 +16,7 @@ function Pizzas() {
     try {
       const response = api.contosoPizzaList();
       const json = await response;
-      console.log(json);
+      
       return json.data;
     } catch (error) {
       console.error(error);
@@ -58,7 +48,6 @@ function Pizzas() {
             <thead>
               <tr>
                 {
-                  pizzas.length > 0 &&
                   pizzaKeys.map(key => <th key={key}>{key.toString().toUpperCase()}</th>)
                 }
               </tr>
@@ -67,19 +56,7 @@ function Pizzas() {
               {
                 pizzas.map(function(p){
                   const { name, id, sauce, toppings } = p;
-                  let topping = '';
-                  
-
-                  toppings?.map((t, i) => {
-                    console.log(i, t)
-                    if(i !== toppings.length - 1){
-                      let a = t.name + ', '
-                      topping += a;
-                    } else {
-                      topping += t.name;
-                    }
-                  });
-                  // topping = topping.join(' ');
+                  const topping = toppings?.map(t => t.name).join(', ');
 
                   const pizza = {
                     id: id,
@@ -87,10 +64,7 @@ function Pizzas() {
                     toppings: topping,
                     sauce: sauce?.name
                   };
-
-                  console.log('toppingStr: ', topping)
-                  console.log('pizza: ', p)
-                  console.log('pizzaKeys: ', pizzaKeys)
+                  
                   return (
                     <tr key={p.id}>
                       {
