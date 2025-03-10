@@ -64,15 +64,34 @@ function Pizzas() {
               </tr>
             </thead>
             <tbody>
-              {pizzas.map(p => (
-                <tr key={p.id}>
-                  {
-                    pizzaKeys.map(key => (
-                      <td>{String(p[key])}</td>
-                    ))
-                  }
-                </tr>
-              ))}
+              {
+                pizzas.map(function(p){
+                  const { name, id, sauce } = p;
+                  let topping = [];
+
+                  p.toppings.map(t => topping.push(t.name));
+                  topping = topping.join(' ');
+
+                  const pizza = {
+                    id: id,
+                    name: name,
+                    toppings: topping,
+                    sauce: sauce?.name
+                  };
+
+                  console.log('toppingStr: ', topping)
+                  console.log('pizza: ', p)
+                  return (
+                    <tr key={p.id}>
+                      {
+                        pizzaKeys.map(key => (
+                          <td>{String(pizza[key])}</td>
+                        ))
+                      }
+                    </tr>
+                  )
+                })
+              }
             </tbody>
           </table>
         )
