@@ -66,11 +66,20 @@ function Pizzas() {
             <tbody>
               {
                 pizzas.map(function(p){
-                  const { name, id, sauce } = p;
-                  let topping = [];
+                  const { name, id, sauce, toppings } = p;
+                  let topping = '';
+                  
 
-                  p.toppings.map(t => topping.push(t.name));
-                  topping = topping.join(' ');
+                  toppings?.map((t, i) => {
+                    console.log(i, t)
+                    if(i !== toppings.length - 1){
+                      let a = t.name + ', '
+                      topping += a;
+                    } else {
+                      topping += t.name;
+                    }
+                  });
+                  // topping = topping.join(' ');
 
                   const pizza = {
                     id: id,
@@ -81,6 +90,7 @@ function Pizzas() {
 
                   console.log('toppingStr: ', topping)
                   console.log('pizza: ', p)
+                  console.log('pizzaKeys: ', pizzaKeys)
                   return (
                     <tr key={p.id}>
                       {
