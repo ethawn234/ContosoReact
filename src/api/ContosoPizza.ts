@@ -9,7 +9,22 @@
  * ---------------------------------------------------------------
  */
 
-import { Pizza, PizzaDTO, ProblemDetails } from "../types/data-contracts";
+import {
+  AddtoppingUpdateData,
+  AddtoppingUpdateError,
+  AdminListData,
+  ContosoPizzaCreateData,
+  ContosoPizzaCreateError,
+  ContosoPizzaDeleteData,
+  ContosoPizzaDeleteError,
+  ContosoPizzaDetailData,
+  ContosoPizzaDetailError,
+  ContosoPizzaListData,
+  GetRootData,
+  Pizza,
+  UpdatesauceUpdateData,
+  UpdatesauceUpdateError,
+} from "../types/data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -17,11 +32,25 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * No description
    *
    * @tags ContosoPizza
+   * @name GetRoot
+   * @request GET:/
+   */
+  getRoot = (params: RequestParams = {}) =>
+    this.request<GetRootData, any>({
+      path: `/`,
+      method: "GET",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
    * @name AdminList
+   * @summary Admin Fetch returns all fields including secret fields
    * @request GET:/ContosoPizza/admin
    */
   adminList = (params: RequestParams = {}) =>
-    this.request<Pizza[], any>({
+    this.request<AdminListData, any>({
       path: `/ContosoPizza/admin`,
       method: "GET",
       format: "json",
@@ -36,14 +65,14 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @request GET:/ContosoPizza
    */
   contosoPizzaList = (params: RequestParams = {}) =>
-    this.request<PizzaDTO[], any>({
+    this.request<ContosoPizzaListData, any>({
       path: `/ContosoPizza`,
       method: "GET",
       format: "json",
       ...params,
     });
   /**
-   * @description Sample request: POST /ContosoPizza { "id": 0, "name": "Pepperoni Stuffed Crust" }
+   * @description Sample request: ``` POST /ContosoPizza { "id": 0, "name": "Pepperoni Stuffed Crust" } ```
    *
    * @tags ContosoPizza
    * @name ContosoPizzaCreate
@@ -51,7 +80,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @request POST:/ContosoPizza
    */
   contosoPizzaCreate = (data: Pizza, params: RequestParams = {}) =>
-    this.request<void, ProblemDetails>({
+    this.request<ContosoPizzaCreateData, ContosoPizzaCreateError>({
       path: `/ContosoPizza`,
       method: "POST",
       body: data,
@@ -67,7 +96,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @request GET:/ContosoPizza/{id}
    */
   contosoPizzaDetail = (id: number, params: RequestParams = {}) =>
-    this.request<PizzaDTO, ProblemDetails>({
+    this.request<ContosoPizzaDetailData, ContosoPizzaDetailError>({
       path: `/ContosoPizza/${id}`,
       method: "GET",
       format: "json",
@@ -82,7 +111,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @request DELETE:/ContosoPizza/{id}
    */
   contosoPizzaDelete = (id: number, params: RequestParams = {}) =>
-    this.request<void, ProblemDetails>({
+    this.request<ContosoPizzaDeleteData, ContosoPizzaDeleteError>({
       path: `/ContosoPizza/${id}`,
       method: "DELETE",
       ...params,
@@ -103,7 +132,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
     },
     params: RequestParams = {},
   ) =>
-    this.request<void, ProblemDetails>({
+    this.request<AddtoppingUpdateData, AddtoppingUpdateError>({
       path: `/ContosoPizza/${pizzaId}/addtopping`,
       method: "PUT",
       query: query,
@@ -125,7 +154,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
     },
     params: RequestParams = {},
   ) =>
-    this.request<void, ProblemDetails>({
+    this.request<UpdatesauceUpdateData, UpdatesauceUpdateError>({
       path: `/ContosoPizza/${id}/updatesauce`,
       method: "PUT",
       query: query,
