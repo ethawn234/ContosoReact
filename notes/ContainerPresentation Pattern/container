@@ -1,0 +1,15 @@
+// importing the custom hook to a component and fetch the characters
+
+import React from "react";
+import { Character } from "./types";
+import { useFetchStarWarsCharacters } from "./useFetchStarWarsCharacters";
+
+const StarWarsCharactersContainer: React.FC = () => {
+  const [characters, isLoading, error] = useFetchStarWarsCharacters();
+
+  return (
+    <CharacterList loading={loading} error={error} characters={characters} />
+  );
+};
+
+export default StarWarsCharactersContainer;
