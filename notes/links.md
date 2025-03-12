@@ -2,3 +2,6 @@ https://github.com/stefanwille/openapi-generator-typescript-example/blob/master/
 https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-rest-api-consumption/
 https://blog.logrocket.com/generating-integrating-openapi-services-react/
 https://profy.dev/article/react-openapi-typescript
+
+### handle generated api client
+https://semaphore.io/blog/api-layer-react
