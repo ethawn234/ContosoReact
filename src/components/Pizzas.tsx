@@ -1,41 +1,21 @@
 import { useState, useEffect } from 'react';
 
 import { PizzaDTO } from '../types/data-contracts';
-import { HttpClient } from '../api/http-client';
-// import { ContosoPizza } from '../api/ContosoPizza'
-
+import { getPizzas } from '../api/ContosoPizzaLayer';
 import './Pizza.css';
 
-const api = new HttpClient({
-  baseURL: "https://localhost:7030/ContosoPizza",
-  secure: false,
-});
 
 function Pizzas() {
   const [pizzas, setPizzas] = useState<PizzaDTO[]>([])
 
-  async function getData(): Promise<PizzaDTO[] | undefined>  {
-    try {
-      return await api.request({ path: "/", method: "Get" })
-                                .then(res => {
-                                  console.log('res: ', res)
-                                  return res.data
-                                })
-                                .catch(err => console.error(err));
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  
   useEffect(() => {
-    async function fetchData() {
-        const data = await getData();
-        console.log('data: ', data)
-        if (data) {
-          setPizzas(data);
+    (async function fetchData() {
+        const data = await getPizzas();
+        // console.log('data: ', data)
+        if (data?.data) {
+          setPizzas(data.data);
         }
-      }
-    fetchData();
+      })();
   }, []);
 
   // Helper function to extract keys from a generic type
