@@ -5,4 +5,4 @@ https://www.pullrequest.com/blog/generating-typescript-types-with-openapi-for-re
 
 # working cmd
 
-NODE_EXTRA_CA_CERTS=$(pwd)/dev-cert.pem npx swagger-typescript-api -p https://localhost:7030/swagger/v1/swagger.json -o ./src/temp/ -n ContosoPizzaAPI.ts --modular
+NODE_EXTRA_CA_CERTS=$(pwd)/dev-cert.pem npx swagger-typescript-api -p https://localhost:7030/swagger/v1/swagger.json -o ./src/api -n ClientApi --axios --module-name-first-tag --route-types --add-readonly --extract-request-body --extract-response-body --extract-response-error --modular
