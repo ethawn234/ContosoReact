@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-import { ContosoPizza } from '../api/ContosoPizza';
 import { PizzaDTO } from '../types/data-contracts';
+import { HttpClient } from '../api/http-client';
+// import { ContosoPizza } from '../api/ContosoPizza'
 
-import './Pizza.css'
+import './Pizza.css';
 
-const api = new ContosoPizza({
-  baseUrl: "https://localhost:7030"
+const api = new HttpClient({
+  baseURL: "https://localhost:7030/ContosoPizza",
+  secure: false,
 });
 
 function Pizzas() {
@@ -14,10 +16,12 @@ function Pizzas() {
 
   async function getData(): Promise<PizzaDTO[] | undefined>  {
     try {
-      const response = api.contosoPizzaList();
-      const json = await response;
-      
-      return json.data;
+      return await api.request({ path: "/", method: "Get" })
+                                .then(res => {
+                                  console.log('res: ', res)
+                                  return res.data
+                                })
+                                .catch(err => console.error(err));
     } catch (error) {
       console.error(error);
     }
@@ -26,7 +30,7 @@ function Pizzas() {
   useEffect(() => {
     async function fetchData() {
         const data = await getData();
-
+        console.log('data: ', data)
         if (data) {
           setPizzas(data);
         }
@@ -35,6 +39,7 @@ function Pizzas() {
   }, []);
 
   // Helper function to extract keys from a generic type
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
   const pizzaKeys = pizzas.length > 0 ? getColHeaders(pizzas[0]) : [];
 
