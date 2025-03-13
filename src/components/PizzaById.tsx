@@ -37,6 +37,7 @@ function PizzaById(){
   
 	return (
 		<>
+		<h1>Get Pizza By Id</h1>
 		<form onSubmit={e => e.preventDefault()}>
 			<label>
 				Pizza ID

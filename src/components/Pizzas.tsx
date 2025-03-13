@@ -25,6 +25,7 @@ function Pizzas() {
 
   return (
     <>
+    <h1>Get All Pizzas</h1>
       {
         pizzas.length === 0 
         ? <p>No pizzas available.</p>

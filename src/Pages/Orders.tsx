@@ -7,6 +7,7 @@ export default function Orders(){
     return (
         <>
             <Pizzas />
+            <br />
             <GetPizzaByIdForm />
         </>
         
