@@ -1,12 +1,10 @@
 
-import Pizzas from './components/Pizzas.tsx';
-import PizzaById from './components/PizzaById.tsx'
+import Orders from "./pages/Orders"
 
 function App() {
   return (
     <>
-      <Pizzas />
-      <PizzaById />
+      <Orders />
     </>
   )
 }
