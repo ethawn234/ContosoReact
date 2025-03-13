@@ -6,8 +6,15 @@ function PizzaById(){
 	const [pizza, setPizza] = useState<PizzaDTO>();
 	const [id, setId] = useState<number>(0);
 	console.log(pizza)
+
+	const handler = () => {
+		if(pizza){
+			setPizza(undefined);
+		}
+		fetchPizza(id);
+	}
+
 	async function fetchPizza(id: number){
-		// console.log('Id before call: ', id)
 		if(id){
 			const data = await getPizza(id);
 			
@@ -33,7 +40,7 @@ function PizzaById(){
 	// Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-  const pizzaKeys = pizza ? getColHeaders(pizza) : [];
+  const pizzaKeys = pizza ? getColHeaders(pizza) : null;
   
 	return (
 		<>
@@ -42,7 +49,7 @@ function PizzaById(){
 			<label>
 				Pizza ID
 				<input type="number" value={id} onChange={e => !Number.isNaN(e.target.value) && setId(parseInt(e.target.value))} />
-				<button onClick={async () => id > 0 && await fetchPizza(id)}>Get Pizza</button>
+				<button onClick={handler}>Get Pizza</button>
 			</label>
 		</form>
 			{
