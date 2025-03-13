@@ -4,7 +4,7 @@ import { getPizza } from "../api/ContosoPizzaLayer";
 
 function PizzaById(){
     const [pizza, setPizza] = useState<PizzaDTO>();
-    const [id, setId] = useState<number>();
+    const [id, setId] = useState<number>(0);
     console.log(pizza)
     async function fetchPizza(id: number){
         console.log('Id before call: ', id)
@@ -27,11 +27,11 @@ function PizzaById(){
 
     return (
         <>
-        <form>
+        <form onSubmit={e => e.preventDefault()}>
             <label>
                 Pizza ID
                 <input type="number" value={id} onChange={e => !Number.isNaN(e.target.value) && setId(parseInt(e.target.value))} />
-                <button onClick={() => id > 0 && fetchPizza(id)}>Get Pizza</button>
+                <button onClick={async () => id > 0 && await fetchPizza(id)}>Get Pizza</button>
             </label>
         </form>
             {
