@@ -1,22 +1,18 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 
 import { PizzaDTO } from '../types/data-contracts';
 import { getPizzas } from '../api/ContosoPizzaLayer';
 import './Pizza.css';
+import { useQuery } from '@tanstack/react-query';
 
 
 function Pizzas() {
-  const [pizzas, setPizzas] = useState<PizzaDTO[]>([])
-
-  useEffect(() => {
-    (async function fetchData() {
-        const data = await getPizzas();
-        // console.log('data: ', data)
-        if (data?.data) {
-          setPizzas(data.data);
-        }
-      })();
-  }, []);
+  const { data, error, isFetching, isLoading } = useQuery({
+    queryKey: ['ContosoPizzas'],
+    queryFn: getPizzas
+  });
+  console.log('data: ', data, error, isFetching, isLoading)
+  const pizzas = data;
 
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,11 +1,17 @@
+import {
+  QueryClient,
+  QueryClientProvider
+} from "@tanstack/react-query";
 
-import Orders from "./pages/Orders"
+import Orders from "./Pages/Orders"
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Orders />
-    </>
+    </QueryClientProvider>
   )
 }
 

@@ -4,9 +4,8 @@ export const getPizzasAdmin = () => {
     return apiClient.adminList()
 }
 
-export const getPizzas = () => {
-    const res = apiClient.contosoPizzaList()
-    return res;
+export const getPizzas = async () => {
+    return await apiClient.contosoPizzaList();
 }
 
 export const getPizza = async (id: number) => {

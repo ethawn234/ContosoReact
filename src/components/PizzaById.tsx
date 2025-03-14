@@ -5,8 +5,7 @@ import { getPizza } from "../api/ContosoPizzaLayer";
 function PizzaById(){
 	const [pizza, setPizza] = useState<PizzaDTO>();
 	const [id, setId] = useState<number>(0);
-	console.log(pizza)
-
+	
 	const handler = () => {
 		if(pizza){
 			setPizza(undefined);
