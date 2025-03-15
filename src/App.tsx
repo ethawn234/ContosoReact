@@ -3,7 +3,7 @@ import {
   QueryClientProvider
 } from "@tanstack/react-query";
 
-import Orders from "./Pages/Orders"
+import Orders from "./pages/Orders"
 
 const queryClient = new QueryClient();
 
