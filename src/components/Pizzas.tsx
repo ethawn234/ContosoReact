@@ -1,4 +1,3 @@
-// import { useState, useEffect } from 'react';
 
 import { PizzaDTO } from '../types/data-contracts';
 import { getPizzas } from '../api/ContosoPizzaLayer';
@@ -12,18 +11,18 @@ function Pizzas() {
     queryFn: getPizzas
   });
   console.log('data: ', data, error, isFetching, isLoading)
-  const pizzas = data;
+  const pizzas = data.data;
 
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-  const pizzaKeys = pizzas.length > 0 ? getColHeaders(pizzas[0]) : [];
+  const pizzaKeys = pizzas?.length > 0 ? getColHeaders(pizzas[0]) : [];
 
   return (
     <>
     <h1>Get All Pizzas</h1>
       {
-        pizzas.length === 0 
+        pizzas?.length === 0
         ? <p>No pizzas available.</p>
         : (
           <table>
