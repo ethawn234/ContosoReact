@@ -8,11 +8,12 @@ import { useQuery } from '@tanstack/react-query';
 function Pizzas() {
   const { data, error, isFetching, isLoading } = useQuery({
     queryKey: ['ContosoPizzas'],
-    queryFn: getPizzas
+    queryFn: getPizzas,
+    staleTime: 5000
   });
   
   let pizzas: PizzaDTO[] = [];
-  
+
   if(data?.data && data.data.length > 0){
     pizzas = data.data;
   }
