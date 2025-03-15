@@ -10,8 +10,12 @@ function Pizzas() {
     queryKey: ['ContosoPizzas'],
     queryFn: getPizzas
   });
-  console.log('data: ', data, error, isFetching, isLoading)
-  const pizzas = data.data;
+  
+  let pizzas: PizzaDTO[] = [];
+  
+  if(data?.data && data.data.length > 0){
+    pizzas = data.data;
+  }
 
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,7 +26,7 @@ function Pizzas() {
     <>
     <h1>Get All Pizzas</h1>
       {
-        pizzas?.length === 0
+         pizzas && pizzas?.length === 0 
         ? <p>No pizzas available.</p>
         : (
           <table>
