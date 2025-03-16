@@ -6,29 +6,25 @@ import { useQuery } from '@tanstack/react-query';
 
 
 function Pizzas() {
-  const { data } = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ['ContosoPizzas'],
     queryFn: getPizzas,
-    staleTime: 5000
+    select: (data) => data.data,
+    staleTime: 2000
   });
   
-  let pizzas: PizzaDTO[] = [];
-
-  if(data && data.data.length > 0){
-    pizzas = data.data;
-  }
-
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-  const pizzaKeys = pizzas?.length > 0 ? getColHeaders(pizzas[0]) : [];
+  const pizzaKeys = data && data?.length > 0 ? getColHeaders(data[0]) : [];
 
   return (
     <>
     <h1>Get All Pizzas</h1>
       {
-         pizzas && pizzas?.length === 0 
-        ? <p>No pizzas available.</p>
+        isError ? <span>Sorry, something went wrong</span>
+        : isLoading ? <span>Loading...</span>
+        : (data && data?.length === 0) ? <p>No pizzas available.</p>
         : (
           <table>
             <thead>
@@ -40,7 +36,7 @@ function Pizzas() {
             </thead>
             <tbody>
               {
-                pizzas.map(function(p:PizzaDTO){
+                data?.map(function(p:PizzaDTO){
                   const { name, id, sauce, toppings } = p;
                   const topping = toppings?.map(t => t.name).join(', ');
 
