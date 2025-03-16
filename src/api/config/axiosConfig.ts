@@ -1,4 +1,3 @@
-// import { HttpClient } from "../http-client";
 import { ContosoPizza } from "../ContosoPizza";
 
 const apiClient = new ContosoPizza({
