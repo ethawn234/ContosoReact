@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PizzaDTO } from "../types/data-contracts";
-import { getPizza } from "../api/ContosoPizzaLayer";
+import { getPizza } from "../api/ContosoPizzaService";
 
 function PizzaById(){
 	const [pizza, setPizza] = useState<PizzaDTO>();

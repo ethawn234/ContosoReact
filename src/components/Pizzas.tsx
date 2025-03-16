@@ -1,6 +1,6 @@
 
 import { PizzaDTO } from '../types/data-contracts';
-import { getPizzas } from '../api/ContosoPizzaLayer';
+import { getPizzas } from '../api/ContosoPizzaService';
 import './Pizza.css';
 import { useQuery } from '@tanstack/react-query';
 
