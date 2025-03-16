@@ -36,27 +36,21 @@ function Pizzas() {
             </thead>
             <tbody>
               {
-                data?.map(function(p:PizzaDTO){
-                  const { name, id, sauce, toppings } = p;
-                  const topping = toppings?.map(t => t.name).join(', ');
+                data?.map((p:PizzaDTO) => (
+                  <tr key={p.id}>
+                    {
+                      pizzaKeys.map(key => {
+                        const pizza = Array.isArray(p[key])
+                        ? p[key].map(prop => prop.name).join(', ') // handle arrays (toppings)
+                        : typeof p[key] == 'object'
+                          ? p[key]?.name // handle objs (sauce)
+                          : p[key] // handle primitive fields
 
-                  const pizza = {
-                    id: id,
-                    name: name,
-                    toppings: topping,
-                    sauce: sauce?.name
-                  };
-                  
-                  return (
-                    <tr key={p.id}>
-                      {
-                        pizzaKeys.map(key => (
-                          <td key={key}>{String(pizza[key])}</td>
-                        ))
-                      }
-                    </tr>
-                  )
-                })
+                        return <td>{String(pizza ?? 'N/A')}</td>
+                      })
+                    }
+                  </tr>
+                ))
               }
             </tbody>
           </table>
