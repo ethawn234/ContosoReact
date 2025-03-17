@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 function PizzaById(){
 	const [id, setId] = useState<number>(0);
-	const { data, isError, isLoading, refetch, isPending, fetchStatus } = useQuery({
+	const { data, isError, isLoading, refetch, isPending, fetchStatus, isSuccess, error } = useQuery({
 		queryKey: ['getById', id],
 		queryFn: () => getPizza(id),
 		enabled: !!id, // prevent fetch on mount; use refetch() to fetch after user submits their input
@@ -16,7 +16,15 @@ function PizzaById(){
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
 	const pizzaKeys = data && getColHeaders(data);
-	console.log(isError, isLoading, refetch, isPending, fetchStatus)
+
+	if (isLoading) {
+		return <span>Loading...</span>
+	  }
+	
+	  if (isError) {
+		return <span>Error: {error.message}</span>
+	  }
+
 	return (
 		<>
 		<h1>Get data By Id</h1>
@@ -32,10 +40,9 @@ function PizzaById(){
 				<button onClick={() => refetch()}>Get Pizza</button>
 			</label>
 		</form>
-			{fetchStatus === 'idle' && <p>Get Pizza by ID</p> }	
-			{isLoading && <p>Loading...</p>}
-			{isError && <p>Something went wrong!</p>}
-			{data ? <p>{data.name} found!</p> : <p>No pizza found.</p>}
+			{/* {isPending ? <p>Loading...</p> : <p>Get a pizza by id</p> }
+			{isError ? <p>Something went wrong!</p> : null}
+			{data ? <p>{data.name} found!</p> : <p>Pizza not found</p>} */}
 			{	
 				data && (
 					<table>
