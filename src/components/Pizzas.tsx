@@ -46,7 +46,7 @@ function Pizzas() {
                           ? p[key]?.name // handle objs (sauce)
                           : p[key] // handle primitive fields
 
-                        return <td>{String(pizza ?? 'N/A')}</td>
+                        return <td key={`${p.id}-${key}`}>{String(pizza ?? 'N/A')}</td>
                       })
                     }
                   </tr>
