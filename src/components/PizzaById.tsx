@@ -3,6 +3,9 @@ import { useState } from "react";
 import { getPizza } from "../api/ContosoPizzaService";
 import { useQuery } from "@tanstack/react-query";
 
+// fix:
+// Not Found response
+// Find placeholder/initial value
 function PizzaById(){
 	const [id, setId] = useState<number>(0);
 	const [input, setInput] = useState<number>(0);
