@@ -1,11 +1,19 @@
+import {
+  QueryClient,
+  QueryClientProvider
+} from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
-import Pizzas from './components/Pizzas.tsx'
+import Orders from "./pages/Orders"
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
-      <Pizzas />
-    </>
+    <QueryClientProvider client={queryClient}>
+      <Orders />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   )
 }
 

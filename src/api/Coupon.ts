@@ -9,10 +9,10 @@
  * ---------------------------------------------------------------
  */
 
-import { Coupon } from "../types/data-contracts";
+import { CouponListData } from "../types/data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class Coupon<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
@@ -22,7 +22,7 @@ export class Api<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request GET:/api/Coupon
    */
   couponList = (params: RequestParams = {}) =>
-    this.request<Coupon[], any>({
+    this.request<CouponListData, any>({
       path: `/api/Coupon`,
       method: "GET",
       format: "json",

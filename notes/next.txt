@@ -1,0 +1,39 @@
+
+Now:
+
+- add api documentation with swagger for Controller api
+- convert to DTO and add real-world use cases 
+    - (Promotions vs Pizza Order?)
+    - Steps:
+        1. Create helper method to convert Model -> DTOModel
+        2. Refactor handlers and routers to use DTO as needed
+            *Refactor Services/Routers so that services only handles conversion; routers can handle presentation. This also eliminates the need for a separate handler for GetAdmin() & GetAll().
+            - GetAll():
+                1. get the pizzas list
+                2. include the toppings and sauce
+                3. convert to DTO and return
+- add cors
+- style Pizza Component with basic table
+    - string Toppings & Sauce (appears as objs currently)
+- review client api scaffolding
+    - implement the rest of the client api handlers
+    - implement client types
+
+
+- add loading/error state handling
+    - React Error Boundary: rendering errors
+    - React Query: data fetching
+- setup routers
+- setup client Pages & Components
+- add a sql server
+- add authentication
+- seed the Toppings DB
+- configure Secret Manager to hold env vars like connection string
+- better error handling/response
+
+Later:
+
+- how does EF Core define fields as unique?
+
+    - Adding duplicate toppings to a pizza should be idempotent?
+    - Currently returns a validation error if duplicate topping is added.

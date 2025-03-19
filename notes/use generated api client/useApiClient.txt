@@ -1,0 +1,27 @@
+
+Why use wrappers for generated client api?
+    • I don’t want to care how to pass a base api url
+    • I want to use use strong types
+    • I don’t want to force other users of the api to know how it is implemented internally
+        ○ They just use the wrapper
+    • I want to have an abstraction between a generated client
+        ○ to have a possibility to extend it if there is a need
+        ○ to be secured for a situation when swagger-typescript-api won’t be supported
+        ○ to simplify the usage of the api
+        ○ because I want to have only one place in the code where generated client is created
+
+
+
+        import { apiClient } from "~/apiClient";
+
+        export const getUserCards = async (getUserCardsParams: GetUserCardsParams ): Promise<UserCardDto[]> => {
+
+            const response = await apiClient(({ api }) =>
+                api.cards.userCardsList(getUserCardsParams)
+            );
+
+            return response.data;
+        };
+
+
+From <https://codepruner.com/how-to-use-apiclient-generated-by-swagger-typescript-api/> 

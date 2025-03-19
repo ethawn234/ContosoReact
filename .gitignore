@@ -23,5 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 src/**/*.txt
-# Cert
+
+# Custom
 *.pem
+.env

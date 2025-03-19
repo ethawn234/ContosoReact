@@ -74,3 +74,31 @@ export interface Topping {
   /** @format double */
   calories?: number;
 }
+
+export type GetRootData = string;
+
+export type AdminListData = Pizza[];
+
+export type ContosoPizzaListData = PizzaDTO[];
+
+export type ContosoPizzaCreateData = any;
+
+export type ContosoPizzaCreateError = ProblemDetails;
+
+export type ContosoPizzaDetailData = PizzaDTO;
+
+export type ContosoPizzaDetailError = ProblemDetails;
+
+export type ContosoPizzaDeleteData = any;
+
+export type ContosoPizzaDeleteError = ProblemDetails;
+
+export type AddtoppingUpdateData = any;
+
+export type AddtoppingUpdateError = ProblemDetails;
+
+export type UpdatesauceUpdateData = any;
+
+export type UpdatesauceUpdateError = ProblemDetails;
+
+export type CouponListData = Coupon[];
