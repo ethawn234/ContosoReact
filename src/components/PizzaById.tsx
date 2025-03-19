@@ -34,11 +34,6 @@ function PizzaById(){
 				<button onClick={() => setId(input)}>Get Pizza</button>
 			</label>
 		</form>
-			{/* { }
-			<div>
-				{isError ? <span>{`Error: ${error.message}`}</span> : null}
-				{data ? <span>{data.name} Pizza found!</span> : <span>Pizza not found</span>}
-			</div> */}
 			{	isLoading ? <span>Loading...</span> 
 				: isError ? <span>{`Error: ${error.message}`}</span> 
 				: !data ? null : (
