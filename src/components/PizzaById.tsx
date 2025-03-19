@@ -11,7 +11,8 @@ function PizzaById(){
 		queryKey: ['getById', id],
 		queryFn: () => getPizza(id),
 		enabled: !!id, // The query will not execute until the id exists
-		select: data => data.data
+		select: data => data.data,
+		retry: false
 	});
 	
 	// Helper function to extract keys from a generic type
