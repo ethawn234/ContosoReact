@@ -1,9 +1,8 @@
 
-import { PizzaDTO } from '../types/data-contracts';
 import { getPizzas } from '../api/ContosoPizzaService';
 import './Pizza.css';
 import { useQuery } from '@tanstack/react-query';
-import TableRow from './TableRow';
+import Table from './Table';
 
 
 function Pizzas() {
@@ -14,38 +13,14 @@ function Pizzas() {
     staleTime: 2000
   });
   
-  // Helper function to extract keys from a generic type
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-  const pizzaKeys = data && data?.length > 0 ? getColHeaders(data[0]) : [];
-  
   return (
     <>
     <h1>Get All Pizzas</h1>
       {
         isError ? <span>Sorry, something went wrong</span>
         : isLoading ? <span>Loading...</span>
-        : (data && data?.length === 0) ? <p>No pizzas available.</p>
-        : (
-          <table>
-            <thead>
-              <tr>
-                {
-                  pizzaKeys.map(key => <th key={key}>{key.toString().toUpperCase()}</th>)
-                }
-              </tr>
-            </thead>
-            <tbody>
-              {
-                data?.map((p:PizzaDTO) => (
-                  <tr key={p.id}>
-                    <TableRow key={p.id} data={p} pizzaKeys={pizzaKeys} />  
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        )
+        : (data?.length === 0) ? <p>No pizzas available.</p>
+        : data && data?.length > 0 ? <Table data={data} /> : null
       }
     </>
   )
