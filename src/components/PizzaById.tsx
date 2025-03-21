@@ -18,11 +18,6 @@ function PizzaById(){
 		select: data => data.data,
 		retry: false
 	});
-	
-	// Helper function to extract keys from a generic type
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-	const pizzaKeys = data && getColHeaders(data);
 
 	return (
 		<>
@@ -41,7 +36,7 @@ function PizzaById(){
 		</form>
 			{	isLoading ? <span>Loading...</span> 
 				: isError ? <span>{`Error: ${error.message}`}</span> 
-				: !data ? null : <Table data={[data]} />
+				: !data ? null : <Table data={[data]} /> // pass data as array to reuise <Table />
 			}
 		</>
 	)
