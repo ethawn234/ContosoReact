@@ -8,7 +8,13 @@ export const getPizzas = async (): Promise<AxiosResponse<PizzaDTO[]>> => await a
 
 export const getPizza = async (id: number): Promise<AxiosResponse<PizzaDTO>> => await apiClient.contosoPizzaDetail(id);
 
-export const postPizza = async (pizza: PizzaDTO) => await apiClient.contosoPizzaCreate(pizza);
+export const postPizza = async (pizza: PizzaDTO) => {
+    const newPizza = await apiClient.contosoPizzaCreate(pizza);
+    const headers = newPizza.headers
+    console.log(headers)
+    return newPizza;
+    // const addToppings = apiClient.addtoppingUpdate(newPizza);
+}
 
 export const deletePizza = async (id: number) => await apiClient.contosoPizzaDelete(id);
 
