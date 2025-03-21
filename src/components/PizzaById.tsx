@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { getPizza } from "../api/ContosoPizzaService";
 import { useQuery } from "@tanstack/react-query";
+import Table from "./Table";
 
 // fix:
 // Not Found response
@@ -40,29 +41,7 @@ function PizzaById(){
 		</form>
 			{	isLoading ? <span>Loading...</span> 
 				: isError ? <span>{`Error: ${error.message}`}</span> 
-				: !data ? null : (
-					<table>
-						<thead>
-							<tr>
-								{ pizzaKeys?.map(key => <th key={key}>{key.toString().toUpperCase()}</th>)}
-							</tr>
-						</thead>
-						<tbody>
-							<tr key={data.id}>
-								{
-									pizzaKeys?.map(key => {
-										const pizza = Array.isArray(data[key])
-										? data[key].map(prop => prop.name).join(', ')
-										: typeof data[key] === 'object'
-										? data[key]?.name
-										: data[key]
-										return <td key={key}>{String(pizza)}</td>
-									})
-								}
-							</tr>
-						</tbody>
-					</table>
-				)
+				: !data ? null : <Table data={[data]} />
 			}
 		</>
 	)
