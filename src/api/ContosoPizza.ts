@@ -22,6 +22,7 @@ import {
   ContosoPizzaListData,
   GetRootData,
   Pizza,
+  PizzaCreateBody,
   UpdatesauceUpdateData,
   UpdatesauceUpdateError,
 } from "../types/data-contracts";
@@ -79,7 +80,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @summary Create a new Pizza
    * @request POST:/ContosoPizza
    */
-  contosoPizzaCreate = (data: Pizza, params: RequestParams = {}) =>
+  contosoPizzaCreate = (data: PizzaCreateBody, params: RequestParams = {}) =>
     this.request<ContosoPizzaCreateData, ContosoPizzaCreateError>({
       path: `/ContosoPizza`,
       method: "POST",
