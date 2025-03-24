@@ -63,6 +63,13 @@ export interface Sauce {
   isVegan?: boolean;
 }
 
+export type PizzaCreateBody = {
+  id: number;
+  name: string;
+  sauceId: number;
+  toppings: number[];  // <-- Correct type definition
+}
+
 export interface Topping {
   /** @format int32 */
   id?: number;
