@@ -1,43 +1,45 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../api/ContosoPizzaService';
-import { PizzaDTO, Topping } from '../types/data-contracts';
+import { PizzaCreateBody, PizzaDTO } from '../types/data-contracts';
 import Table from './Table';
 
 const topping = ["Pepperoni", "Sausage", "Ham", "Chicken", "Pineapple"]
 
-type PizzaCreateBody = {
-  id: number;
-  name: string;
-  sauce: { name: string };
-  toppings: { name: string }[];  // <-- Correct type definition
-}
 
 export default function PizzaCreate(){
   const [pizza, setPizza] = useState<PizzaCreateBody>({
     id: 0,
     name: '',
-    sauce: { name: '' }, // <input type="dropdown" />; get Sauce.name
+    sauceId: 0, // <input type="dropdown" />; get Sauce.name
     toppings: [] // <input type="dropdown" /> ?
   });
 
-  const { data, isPending, isError, isSuccess } = useMutation({
-    mutationFn: postPizza
+  const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
+
+  const { mutate } = useMutation({ // , isPending, isError, isSuccess
+    mutationFn: postPizza,
+    onSuccess: (data) => setCreatedPizza(data.data)
   })
 
   const handleToppings = (e: number) => {
-    let t= topping[e];
-    console.log('t: ', t)
-    setPizza({ ...pizza, toppings: [...pizza.toppings, { name: t }] });
+    const toppingId = parseInt(topping[e]);
+    console.log('toppingId: ', toppingId)
+    setPizza(prevPizza => ({ ...prevPizza, toppings: [...prevPizza.toppings, toppingId] }));
   }
   
+  const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => {
+    const id = typeof e.target.value == 'string' ? parseInt(e.target.value) : -1;
+    setPizza({ ...pizza, sauceId: id });
+  }
 
   const createPizza = async () => {
-    console.log('pizza: ',pizza)
-    const newPizza = await postPizza(pizza);
+    // const newPizza = await postPizza(pizza);
 
-    return newPizza;
+    mutate(pizza);
+    
+    // setCreatedPizza(newPizza);
   }
 
   return (
@@ -48,10 +50,10 @@ export default function PizzaCreate(){
         <br />
         <br />
         <label htmlFor="sauceName">Sauce:{' '}</label>
-        <select id='sauceName' onChange={e => setPizza({ ...pizza, sauce: { name: e.target.value } })}>
+        <select id='sauceName' onChange={e => handleSauce(e)}>
           <optgroup label='Choose Your Sauce'>
-            <option value="tomato">Tomato</option>
-            <option value="pesto">Pesto</option>
+            <option value={0}>Tomato</option>
+            <option value={1}>Pesto</option>
           </optgroup>
         </select>
         <br />
@@ -73,7 +75,7 @@ export default function PizzaCreate(){
         <button style={{backgroundColor: 'green'}} onClick={createPizza}>Order Pizza</button>
       </form>
       {
-        data ? <Table data={[pizza]} /> : null
+        createdPizza ? <Table data={[createdPizza]} /> : null
       }
     </>
   )
