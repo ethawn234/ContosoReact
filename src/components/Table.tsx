@@ -1,34 +1,68 @@
-import { PizzaDTO } from "../types/data-contracts";
-
-
-export default function Table({ data }: { data: PizzaDTO[] }){
+import { PizzaDTO, Sauce, Topping } from "../types/data-contracts";
+/*
+export interface PizzaDTO {
+  id?: number;
+  name: string;
+  sauce?: Sauce;
+  toppings?: Topping[] | null;
+}
+export interface Topping {
+  id?: number;
+  name: string;
+  calories?: number;
+}
+export interface Sauce {
+  id?: number;
+  name: string;
+  isVegan?: boolean;
+}
+*/
+export default function Table<T extends PizzaDTO | Topping | Sauce>({ data }: { data: T[] }){
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getColHeaders = <T extends Record<string, any>>(obj: T) => Object.keys(obj) as (keyof T)[];
-  const pizzaKeys = data && data?.length > 0 ? getColHeaders(data[0]) : [];
+  const keys = data && data?.length > 0 ? getColHeaders(data[0]) : [];
 
   return (
     <table>
       <thead>
         <tr>
           {
-            pizzaKeys.map(key => <th key={key}>{key.toString().toUpperCase()}</th>)
+            keys.map(key => <th key={String(key)}>{key.toString().toUpperCase()}</th>)
           }
         </tr>
       </thead>
       <tbody>
         {
-          data?.map((p:PizzaDTO) => (
-            <tr key={p.id}>
+          /*
+            export interface PizzaDTO {
+              id?: number;
+              name: string;
+              sauce?: Sauce;
+              toppings?: Topping[] | null;
+            }
+            export interface Topping {
+              id?: number;
+              name: string;
+              calories?: number;
+            }
+            export interface Sauce {
+              id?: number;
+              name: string;
+              isVegan?: boolean;
+            }
+          */
+          data?.map((item:T) => (
+            <tr key={item.id}>
               {
-                pizzaKeys.map(key => {
-                  const pizza = Array.isArray(p[key])
-                  ? p[key].map(prop => prop.name).join(', ') // handle arrays (toppings)
-                  : typeof p[key] == 'object'
-                    ? p[key]?.name // handle objs (sauce)
-                    : p[key] // handle primitive fields
+                keys.map(itemKey => {
+                  const formattedData = Array.isArray(item[itemKey])
+                  ? item[itemKey].map(prop => prop.name).join(', ') // handle arrays (toppings)
+                  : typeof item[itemKey] == 'object' && item[itemKey] !== null && 'name' in item[itemKey]
+                  ? (item[itemKey] as { name: string }).name  // handle objs (sauce)
+                  : item[itemKey] // handle primitive fields
 
-                  return <td key={`${p.id}-${key}`}>{String(pizza ?? 'N/A')}</td>
+                  return <td key={`${item.id}-${String(itemKey)}`}>{String(formattedData ?? 'N/A')}</td>
                 })
               }
             </tr>
