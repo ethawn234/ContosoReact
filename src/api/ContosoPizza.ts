@@ -20,6 +20,8 @@ import {
   ContosoPizzaDetailData,
   ContosoPizzaDetailError,
   ContosoPizzaListData,
+  ContosoSaucesListData,
+  ContosoToppingsListData,
   GetRootData,
   PizzaCreateDTO,
   UpdatesauceUpdateData,
@@ -147,7 +149,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @request GET:/api/topping
    */
   getToppings = (params: RequestParams = {}) =>
-    this.request<ContosoPizzaListData, any>({
+    this.request<ContosoToppingsListData, any>({
       path: `/api/topping`,
       method: "GET",
       format: "json",
@@ -162,7 +164,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
      * @request GET:/api/topping
      */
     getSauces = (params: RequestParams = {}) =>
-      this.request<ContosoPizzaListData, any>({
+      this.request<ContosoSaucesListData, any>({
         path: `/api/sauces`,
         method: "GET",
         format: "json",

@@ -82,6 +82,10 @@ export interface Topping {
   calories?: number;
 }
 
+export type ContosoSaucesListData = Sauce[];
+
+export type ContosoToppingsListData = Topping[];
+
 export type GetRootData = string;
 
 export type AdminListData = Pizza[];
