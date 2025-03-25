@@ -2,6 +2,7 @@
 import GetPizzaByIdForm from "../components/PizzaById";
 import Pizzas from "../components/Pizzas";
 import PizzaCreate from "../components/PizzaCreate";
+import Toppings from "../components/Toppings";
 
 export default function Orders(){
     
@@ -12,6 +13,8 @@ export default function Orders(){
             <Pizzas />
             <br />
             <GetPizzaByIdForm />
+            <br />
+            <Toppings />
         </>
         
     )
