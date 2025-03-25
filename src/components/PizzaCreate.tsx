@@ -21,6 +21,7 @@ export default function PizzaCreate(){
   })
 
   const handleToppings = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, toppingIds: [ ...prevPizza.toppingIds, Number(e.target.value) ] }));
+
   const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, sauceId: Number(e.target.value) }));
 
   return (
@@ -40,7 +41,7 @@ export default function PizzaCreate(){
         <br />
         <br />
         <label htmlFor="toppings">Toppings:{' '}</label>
-        <select name="toppings" id="toppings" onChange={handleToppings}>
+        <select multiple name="toppings" id="toppings" onChange={handleToppings}>
           <optgroup label='Choose Your Toppings'>
             <option value={1}>Pepperoni</option>
             <option value={2}>Sausage</option>
@@ -54,7 +55,7 @@ export default function PizzaCreate(){
         <button style={{backgroundColor: 'green'}} onClick={() => mutate(pizza)}>Order Pizza</button>
       </form>
       {
-        createdPizza ? <Table data={[createdPizza]} /> : null
+        createdPizza ? <Table data={[createdPizza]} /> : <Table data={[pizza]} />
       }
     </>
   )

@@ -16,7 +16,7 @@ export default function Toppings(){
         {
             isError ? <span>Sorry, something went wrong</span>
                     : isLoading ? <span>Loading...</span>
-                    : (data?.length === 0) ? <p>No pizzas available.</p>
+                    : (data?.length === 0) ? <p>No toppings available.</p>
                     : data && data?.length > 0 ? <Table data={data} /> : null
         }
         </>

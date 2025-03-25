@@ -27,7 +27,7 @@ export default function Table<T extends PizzaDTO | Topping | Sauce>({ data }: { 
                   ? (item[itemKey] as { name: string }).name  // handle objs (sauce)
                   : item[itemKey] // handle primitive fields
 
-                  return <td key={`${item.id}-${String(itemKey)}`}>{String(formattedData ?? 'N/A')}</td>
+                  return <td key={`${item.id}-${String(itemKey)}`}>{String(formattedData ?? 'N/A')}</td> // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
                 })
               }
             </tr>

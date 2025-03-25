@@ -12,11 +12,11 @@ export default function Sauces(){
 
     return (
         <>
-        <h1>Available Toppings</h1>
+        <h1>Available Sauces</h1>
         {
             isError ? <span>Sorry, something went wrong</span>
                     : isLoading ? <span>Loading...</span>
-                    : (data?.length === 0) ? <p>No pizzas available.</p>
+                    : (data?.length === 0) ? <p>No sauces available.</p>
                     : data && data?.length > 0 ? <Table data={data} /> : null
         }
         </>
