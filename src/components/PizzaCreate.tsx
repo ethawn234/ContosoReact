@@ -40,7 +40,7 @@ export default function PizzaCreate(){
         </select>
         <br />
         <br />
-        <label htmlFor="toppings">Toppings:{' '}</label>
+        {/* <label htmlFor="toppings">Toppings:{' '}</label>
         <select multiple name="toppings" id="toppings" onChange={handleToppings}>
           <optgroup label='Choose Your Toppings'>
             <option value={1}>Pepperoni</option>
@@ -49,7 +49,23 @@ export default function PizzaCreate(){
             <option value={4}>Chicken</option>
             <option value={5}>Pineapple</option>
           </optgroup>
-        </select>
+        </select> */}
+        <div>
+          <div>
+            <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
+            <label htmlFor='Pepperoni'>Pepperoni</label>
+            <input type="checkbox" name="Sausage" value={2} />
+            <label htmlFor='Sausage'>Sausage</label>
+            <input type="checkbox" name="Ham" value={3} />
+            <label htmlFor='Ham'>Ham</label>
+          </div>
+          <div>
+            <input type="checkbox" name="Chicken" value={4} />
+            <label htmlFor='Chicken'>Chicken</label>
+            <input type="checkbox" name="Pineapple" value={5} />
+            <label htmlFor='Pineapple'>Pineapple</label>
+          </div>
+        </div>
         <br />          
         <br />
         <button style={{backgroundColor: 'green'}} onClick={() => mutate(pizza)}>Order Pizza</button>
