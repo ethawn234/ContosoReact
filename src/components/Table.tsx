@@ -1,22 +1,5 @@
 import { PizzaDTO, Sauce, Topping } from "../types/data-contracts";
-/*
-export interface PizzaDTO {
-  id?: number;
-  name: string;
-  sauce?: Sauce;
-  toppings?: Topping[] | null;
-}
-export interface Topping {
-  id?: number;
-  name: string;
-  calories?: number;
-}
-export interface Sauce {
-  id?: number;
-  name: string;
-  isVegan?: boolean;
-}
-*/
+
 export default function Table<T extends PizzaDTO | Topping | Sauce>({ data }: { data: T[] }){
   // Helper function to extract keys from a generic type
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,24 +17,6 @@ export default function Table<T extends PizzaDTO | Topping | Sauce>({ data }: { 
       </thead>
       <tbody>
         {
-          /*
-            export interface PizzaDTO {
-              id?: number;
-              name: string;
-              sauce?: Sauce;
-              toppings?: Topping[] | null;
-            }
-            export interface Topping {
-              id?: number;
-              name: string;
-              calories?: number;
-            }
-            export interface Sauce {
-              id?: number;
-              name: string;
-              isVegan?: boolean;
-            }
-          */
           data?.map((item:T) => (
             <tr key={item.id}>
               {
