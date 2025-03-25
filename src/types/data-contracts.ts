@@ -63,7 +63,7 @@ export interface Sauce {
   isVegan?: boolean;
 }
 
-export type PizzaCreateBody = {
+export type PizzaCreateDTO = {
   id: number;
   name: string;
   sauceId: number;

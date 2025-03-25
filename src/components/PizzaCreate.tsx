@@ -2,11 +2,11 @@ import { ChangeEvent, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../api/ContosoPizzaService';
-import { PizzaCreateBody, PizzaDTO } from '../types/data-contracts';
+import { PizzaCreateDTO, PizzaDTO } from '../types/data-contracts';
 import Table from './Table';
 
 export default function PizzaCreate(){
-  const [pizza, setPizza] = useState<PizzaCreateBody>({
+  const [pizza, setPizza] = useState<PizzaCreateDTO>({
     id: 0,
     name: '',
     sauceId: 0, // num|str
