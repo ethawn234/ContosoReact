@@ -21,8 +21,7 @@ import {
   ContosoPizzaDetailError,
   ContosoPizzaListData,
   GetRootData,
-  Pizza,
-  PizzaCreateBody,
+  PizzaCreateDTO,
   UpdatesauceUpdateData,
   UpdatesauceUpdateError,
 } from "../types/data-contracts";
@@ -80,7 +79,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @summary Create a new Pizza
    * @request POST:/ContosoPizza
    */
-  contosoPizzaCreate = (data: PizzaCreateBody, params: RequestParams = {}) =>
+  contosoPizzaCreate = (data: PizzaCreateDTO, params: RequestParams = {}) =>
     this.request<ContosoPizzaCreateData, ContosoPizzaCreateError>({
       path: `/ContosoPizza`,
       method: "POST",
@@ -137,6 +136,21 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
       path: `/ContosoPizza/${pizzaId}/addtopping`,
       method: "PUT",
       query: query,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
+   * @name getToppings
+   * @summary Select a topping and add it to your pizza!
+   * @request GET:/api/topping
+   */
+  getToppings = (params: RequestParams = {}) =>
+    this.request<ContosoPizzaListData, any>({
+      path: `/api/topping`,
+      method: "GET",
+      format: "json",
       ...params,
     });
   /**
