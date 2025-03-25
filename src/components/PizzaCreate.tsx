@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../api/ContosoPizzaService';
@@ -10,9 +10,9 @@ export default function PizzaCreate(){
     id: 0,
     name: '',
     sauceId: 0,
-    toppings: []
+    toppingIds: [] // make unique
   });
-  const [toppings, setToppings] = useState<number[]>([]);
+  
   const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
 
   const { mutate } = useMutation({ // , isPending, isError, isSuccess
@@ -20,14 +20,18 @@ export default function PizzaCreate(){
     onSuccess: (data) => setCreatedPizza(data.data)
   })
 
-  
   const handleToppings = (e: ChangeEvent<HTMLSelectElement>) => {
     const t = Number(e.target.value);
     console.log('t: ', t)  
-    setPizza(prevPizza => ({ ...prevPizza, toppings: [ ...prevPizza.toppings, t ] }));
+    setPizza(prevPizza => ({ ...prevPizza, toppingIds: [ ...prevPizza.toppingIds, t ] }));
     // setToppings(prevToppings => ([ ...prevToppings, t ]))
     console.log('handleToppings: ', pizza)  
   }
+
+  useEffect(() => {
+    console.log('pizza: ', pizza)
+  },[pizza])
+
   // refactor
   const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => {
     const id = typeof e.target.value == 'string' ? parseInt(e.target.value) : -1;
@@ -36,7 +40,6 @@ export default function PizzaCreate(){
   }
 
   const createPizza = async () => {
-    console.log('createPizza: ', pizza)
     mutate(pizza);
   }
 
