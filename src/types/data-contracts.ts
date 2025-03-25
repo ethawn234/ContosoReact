@@ -67,7 +67,7 @@ export type PizzaCreateBody = {
   id: number;
   name: string;
   sauceId: number;
-  toppings: number[];  // <-- Correct type definition
+  toppingIds: number[];  // <-- Correct type definition
 }
 
 export interface Topping {
