@@ -15,3 +15,5 @@ export const deletePizza = async (id: number) => await apiClient.contosoPizzaDel
 // export const  = async (pizza: PizzaDTO) => await apiClient.;
 
 export const getToppings = async () => await apiClient.getToppings();
+
+export const getSauces = async() => await apiClient.getSauces();
