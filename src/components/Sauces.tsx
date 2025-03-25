@@ -5,7 +5,7 @@ import Table from "./Table";
 
 export default function Sauces(){
     const { data, isError, isLoading } = useQuery({
-        queryKey: ['toppings'],
+        queryKey: ['sauces'],
         queryFn: getSauces,
         select: data => data.data
     });
