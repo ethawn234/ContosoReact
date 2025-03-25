@@ -92,7 +92,7 @@ export type AdminListData = Pizza[];
 
 export type ContosoPizzaListData = PizzaDTO[];
 
-export type ContosoPizzaCreateData = any;
+export type ContosoPizzaCreateData = PizzaCreateDTO;
 
 export type ContosoPizzaCreateError = ProblemDetails;
 
