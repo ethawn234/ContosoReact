@@ -1,5 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useForm } from '@tanstack/react-form';
 
 import { postPizza } from '../api/ContosoPizzaService';
 import { PizzaCreateDTO, PizzaDTO } from '../types/data-contracts';
@@ -40,16 +41,7 @@ export default function PizzaCreate(){
         </select>
         <br />
         <br />
-        {/* <label htmlFor="toppings">Toppings:{' '}</label>
-        <select multiple name="toppings" id="toppings" onChange={handleToppings}>
-          <optgroup label='Choose Your Toppings'>
-            <option value={1}>Pepperoni</option>
-            <option value={2}>Sausage</option>
-            <option value={3}>Ham</option>
-            <option value={4}>Chicken</option>
-            <option value={5}>Pineapple</option>
-          </optgroup>
-        </select> */}
+        
         <div>
           <div>
             <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
