@@ -14,7 +14,7 @@ import { useStore } from '@tanstack/react-form';
 export function TextField({ label }: { label: string }){
     const field = useFieldContext<string>();
     const errors = useStore(field.store, state => state.meta.errors)
-
+    
     return (
         <div>
             <label>
@@ -31,6 +31,26 @@ export function TextField({ label }: { label: string }){
             }
         </div>
         
+    )
+}
+
+export function RadioField({ label }: { label: string }){
+    const field = useFieldContext<string>();
+    const errors = useStore(field.store, state => state.meta.errors)
+    // label is not correctly rendered
+    // value should hold sauce id
+    // onChange should add to PizzaCreateDTO?
+    return (
+        <div>
+            <label htmlFor={label}>
+            <input type="checkbox" value={field.state.value} onChange={e => field.handleChange(e.target.value)} />
+            </label>
+            {
+                errors.map((error: string) => (
+                    <div key={error} style={{ color: 'red' }}>{error}</div>
+                ))
+            }
+        </div>
     )
 }
 
