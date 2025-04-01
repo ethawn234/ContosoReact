@@ -8,6 +8,11 @@ const TextField = lazy(() =>
     .then(m => ({ default: m.TextField }))
 );
 
+const RadioField = lazy(() =>
+    import('./fieldComponents')
+    .then(m => ({ default: m.RadioField }))
+);
+
 const NumberField = lazy(() =>
     import('./fieldComponents')
     .then(m => ({ default: m.NumberField }))
@@ -18,6 +23,7 @@ export const { useAppForm } = createFormHook({
     formContext,
     fieldComponents: {
         TextField,
+        RadioField,
         NumberField
     },
     formComponents: {}
