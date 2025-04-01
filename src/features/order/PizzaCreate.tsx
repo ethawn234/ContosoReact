@@ -5,7 +5,7 @@ import { postPizza } from '../../api/ContosoPizzaService';
 import { PizzaCreateDTO, PizzaDTO } from '../../types/data-contracts';
 import Table from '../../components/Table';
 import { useAppForm } from '../../hooks/forms/form';
-import { sauces } from './constants';
+import { allSauces } from './constants';
 
 const initialState = {
   id: 0,
@@ -23,16 +23,28 @@ export default function PizzaCreate(){
   });
   const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
 
-  const { mutate } = useMutation({ // , isPending, isError, isSuccess
+  const mutate = useMutation({ // , isPending, isError, isSuccess
     mutationFn: postPizza,
     onSuccess: (data) => setCreatedPizza(data.data)
   });
 
-  const form = useAppForm({ defaultValues: initialState })
+  const form = useAppForm({ 
+    defaultValues: {
+      id: 0,
+      name: '',
+      sauceId: 0, // num|str
+      toppingIds: [] // make unique set; num|str
+    },
+    onSubmit: async ({ formApi, value}) => {
+      await mutate.mutateAsync(value);
+
+      // formApi.reset();
+    }
+  })
 
   // const handleToppings = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, toppingIds: [ ...prevPizza.toppingIds, Number(e.target.value) ] }));
 
-  const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, sauceId: Number(e.target.value) }));
+  // const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, sauceId: Number(e.target.value) }));
 
   return (
     <>
@@ -42,12 +54,19 @@ export default function PizzaCreate(){
             name='name'
             children={field => <field.TextField label='Pizza Name' />}
           />
-
-          <form.AppField
-            name='sauce'
-            children={field => <field.TextField label='Suace' />}
-          />
           
+          {
+            allSauces.map(sauce => {
+
+              return (
+                <form.AppField
+                  name='sauceId'
+                  children={field => <field.RadioField label={sauce.name} />}
+                />
+              )
+            })
+          }
+
           <div>
             <div>
               <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
@@ -66,7 +85,7 @@ export default function PizzaCreate(){
           </div>
           <br />          
           <br />
-          <button style={{backgroundColor: 'green'}} onClick={() => mutate(pizza)}>Order Pizza</button>
+          <button style={{backgroundColor: 'green'}} onClick={() => mutate.mutateAsync(pizza)}>Order Pizza</button>
       </form>
       {
         createdPizza ? <Table data={[createdPizza]} /> : <Table data={[pizza]} />
