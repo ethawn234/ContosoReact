@@ -1,4 +1,4 @@
-export const toppings = [
+export const allToppings = [
   {
       "id": 1,
       "name": "Pepperoni",
@@ -26,7 +26,7 @@ export const toppings = [
   }
 ]
 
-export const sauces = [
+export const allSauces = [
     {
         "id": 1,
         "name": "Tomato",
