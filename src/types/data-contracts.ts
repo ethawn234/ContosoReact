@@ -63,6 +63,17 @@ export interface Sauce {
   isVegan?: boolean;
 }
 
+export interface SauceDTO {
+  /** @format int32 */
+  id?: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  isVegan?: boolean;
+}
+
 export type PizzaCreateDTO = {
   id: number;
   name: string;
