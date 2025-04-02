@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../../api/ContosoPizzaService';
@@ -6,13 +6,6 @@ import { PizzaCreateDTO, PizzaDTO } from '../../types/data-contracts';
 import Table from '../../components/Table';
 import { useAppForm } from '../../hooks/forms/form';
 import { allSauces } from './constants';
-
-const initialState = {
-  id: 0,
-  name: '',
-  sauce: '', // num|str
-  toppings: [] // make unique set; num|str
-}
 
 export default function PizzaCreate(){
   const [pizza, setPizza] = useState<PizzaCreateDTO>({
@@ -57,11 +50,11 @@ export default function PizzaCreate(){
           
           {
             allSauces.map(sauce => {
-
               return (
                 <form.AppField
                   name='sauceId'
-                  children={field => <field.RadioField label={sauce.name} />}
+                  key={sauce.id}
+                  children={field => <field.RadioField sauce={sauce} label={sauce.name} />}
                 />
               )
             })
