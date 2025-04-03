@@ -53,11 +53,11 @@ export default function PizzaCreate(){
           
           {
             allSauces.map(sauce => {
-
               return (
                 <form.AppField
-                  name='sauceId' key={sauce.name}
-                  children={field => <field.RadioField label={sauce.name} />}
+                  name='sauceId'
+                  key={sauce.id}
+                  children={field => <field.RadioField sauce={sauce} label={sauce.name} />}
                 />
               )
             })

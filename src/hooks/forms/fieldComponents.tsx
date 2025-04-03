@@ -1,4 +1,4 @@
-import { useFieldContext, useFormContext } from "./context";
+import { useFieldContext } from "./context";
 import { useStore } from '@tanstack/react-form';
 
 // function FieldInfo({ field }: { field: AnyFieldApi }) {
@@ -34,9 +34,10 @@ export function TextField({ label }: { label: string }){
     )
 }
 
-export function RadioField({ label }: { label: string }){
+export function RadioField({ label, sauce }: { label: string, sauce: SauceDTO }){
     const field = useFieldContext<string>();
-    const errors = useStore(field.store, state => state.meta.errors)
+    const errors = useStore(field.store, state => state.meta.errors);
+    console.log('sauce: ', sauce)
     // label is not correctly rendered
     // value should hold sauce id
     // onChange should add to PizzaCreateDTO?
@@ -47,6 +48,9 @@ export function RadioField({ label }: { label: string }){
         <div>
             <label htmlFor={label}>
             <input type="checkbox" value={label} onChange={e => field.handleChange(e.target.value)} />
+            <label htmlFor={sauce.id?.toString()}>
+            {/* <div>{label}</div> */}
+            <input type="checkbox" id={sauce.id?.toString()} title={label} value={'sauce.id'} onChange={e => field.handleChange(e.target.value)} />
             </label>
             {
                 errors.map((error: string) => (
