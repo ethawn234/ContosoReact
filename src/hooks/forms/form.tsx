@@ -2,6 +2,7 @@ import { lazy } from 'react';
 
 import { createFormHook } from '@tanstack/react-form'
 import { fieldContext, formContext } from './context'
+import { SubscribeButton } from './fieldComponents';
 
 const TextField = lazy(() => 
     import('./fieldComponents')
@@ -26,5 +27,7 @@ export const { useAppForm } = createFormHook({
         RadioField,
         NumberField
     },
-    formComponents: {}
+    formComponents: {
+        SubscribeButton
+    }
 });

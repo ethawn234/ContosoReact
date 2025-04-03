@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../../api/ContosoPizzaService';
@@ -7,24 +7,17 @@ import Table from '../../components/Table';
 import { useAppForm } from '../../hooks/forms/form';
 import { allSauces } from './constants';
 
-const initialState = {
-  id: 0,
-  name: '',
-  sauce: '', // num|str
-  toppings: [] // make unique set; num|str
-}
-
 export default function PizzaCreate(){
-  const [pizza, setPizza] = useState<PizzaCreateDTO>({
-    id: 0,
-    name: '',
-    sauceId: 0, // num|str
-    toppingIds: [] // make unique set; num|str
-  });
+  // const [pizza, setPizza] = useState<PizzaCreateDTO>({
+  //   id: 0,
+  //   name: '',
+  //   sauceId: 0, // num|str
+  //   toppingIds: [] // make unique set; num|str
+  // });
   const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
 
   const mutate = useMutation({ // , isPending, isError, isSuccess
-    mutationFn: postPizza,
+    mutationFn: async (pizza: PizzaCreateDTO) => postPizza(pizza),
     onSuccess: (data) => setCreatedPizza(data.data)
   });
 
@@ -49,7 +42,10 @@ export default function PizzaCreate(){
   return (
     <>
       <h1>Order</h1>
-      <form onSubmit={e => e.preventDefault()}>
+      <form onSubmit={e => {
+        e.preventDefault();
+        form.handleSubmit();
+      }}>
           <form.AppField
             name='name'
             children={field => <field.TextField label='Pizza Name' />}
@@ -60,13 +56,13 @@ export default function PizzaCreate(){
 
               return (
                 <form.AppField
-                  name='sauceId'
+                  name='sauceId' key={sauce.name}
                   children={field => <field.RadioField label={sauce.name} />}
                 />
               )
             })
           }
-
+          <hr />
           <div>
             <div>
               <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
@@ -85,10 +81,10 @@ export default function PizzaCreate(){
           </div>
           <br />          
           <br />
-          <button style={{backgroundColor: 'green'}} onClick={() => mutate.mutateAsync(pizza)}>Order Pizza</button>
+          <form.SubscribeButton label="sss"/>
       </form>
       {
-        createdPizza ? <Table data={[createdPizza]} /> : <Table data={[pizza]} />
+        createdPizza ? <Table data={[createdPizza]} /> : null//<Table data={[pizza]} />
       }
     </>
   )

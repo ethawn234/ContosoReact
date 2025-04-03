@@ -1,4 +1,4 @@
-import { useFieldContext } from "./context";
+import { useFieldContext, useFormContext } from "./context";
 import { useStore } from '@tanstack/react-form';
 
 // function FieldInfo({ field }: { field: AnyFieldApi }) {
@@ -40,10 +40,13 @@ export function RadioField({ label }: { label: string }){
     // label is not correctly rendered
     // value should hold sauce id
     // onChange should add to PizzaCreateDTO?
+    console.log('field: ', field)
+    console.log('errors: ', errors)
+    console.log('label: ', label)
     return (
         <div>
             <label htmlFor={label}>
-            <input type="checkbox" value={field.state.value} onChange={e => field.handleChange(e.target.value)} />
+            <input type="checkbox" value={label} onChange={e => field.handleChange(e.target.value)} />
             </label>
             {
                 errors.map((error: string) => (
@@ -62,5 +65,15 @@ export function NumberField({ label }: { label: number[] }){
             <div>{label}</div>
             <input value={field.state.value} onChange={e => field.handleChange(parseInt(e.target.value) ?? parseInt(e.target.value))} />
         </label>
+    )
+}
+
+export function SubscribeButton({ label }: { label: string }){
+    const form = useFormContext()
+
+    return (
+        <form.Subscribe selector={state => state.isSubmitting}>
+            {(isSubmitting) => <button disabled={isSubmitting}>{label}</button>}
+        </form.Subscribe>
     )
 }
