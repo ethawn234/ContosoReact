@@ -63,7 +63,7 @@ export default function PizzaCreate(){
             })
           }
           <hr />
-          <div>
+          {/* <div>
             <div>
               <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
               <label htmlFor='Pepperoni'>Pepperoni</label>
@@ -80,8 +80,11 @@ export default function PizzaCreate(){
             </div>
           </div>
           <br />          
-          <br />
-          <form.SubscribeButton label="sss"/>
+          <br /> */}
+          <form.AppForm>
+            <form.SubscribeButton label="sss"/>
+          </form.AppForm>
+          
       </form>
       {
         createdPizza ? <Table data={[createdPizza]} /> : null//<Table data={[pizza]} />

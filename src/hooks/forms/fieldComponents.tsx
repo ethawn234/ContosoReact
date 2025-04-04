@@ -1,4 +1,5 @@
-import { useFieldContext } from "./context";
+import { SauceDTO } from "../../types/data-contracts";
+import { useFieldContext, useFormContext } from "./context";
 import { useStore } from '@tanstack/react-form';
 
 // function FieldInfo({ field }: { field: AnyFieldApi }) {
@@ -47,9 +48,6 @@ export function RadioField({ label, sauce }: { label: string, sauce: SauceDTO })
     return (
         <div>
             <label htmlFor={label}>
-            <input type="checkbox" value={label} onChange={e => field.handleChange(e.target.value)} />
-            <label htmlFor={sauce.id?.toString()}>
-            {/* <div>{label}</div> */}
             <input type="checkbox" id={sauce.id?.toString()} title={label} value={'sauce.id'} onChange={e => field.handleChange(e.target.value)} />
             </label>
             {
