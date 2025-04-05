@@ -36,7 +36,7 @@ export function TextField({ label }: { label: string }){
 }
 
 export function RadioField({ label, sauce }: { label: string, sauce: SauceDTO }){
-    const field = useFieldContext<string>();
+    const field = useFieldContext<number>();
     const errors = useStore(field.store, state => state.meta.errors);
     console.log('sauce: ', sauce)
     // label is not correctly rendered
@@ -47,9 +47,8 @@ export function RadioField({ label, sauce }: { label: string, sauce: SauceDTO })
     console.log('label: ', label)
     return (
         <div>
-            <label htmlFor={label}>
-            <input type="checkbox" id={sauce.id?.toString()} title={label} value={'sauce.id'} onChange={e => field.handleChange(e.target.value)} />
-            </label>
+            <input type="radio" id={sauce.name} title={label} value={sauce.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
+            <label htmlFor={sauce.name}>{sauce.name}</label>
             {
                 errors.map((error: string) => (
                     <div key={error} style={{ color: 'red' }}>{error}</div>
