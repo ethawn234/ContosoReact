@@ -42,6 +42,18 @@ export interface PizzaDTO {
   toppings?: Topping[] | null;
 }
 
+export type PizzaCreateDTO = {
+  /** @format int32 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  sauceId: number;
+  toppingIds: number[];  // <-- Correct type definition
+}
+
 export interface ProblemDetails {
   type?: string | null;
   title?: string | null;
@@ -72,13 +84,6 @@ export interface SauceDTO {
    */
   name: string;
   isVegan?: boolean;
-}
-
-export type PizzaCreateDTO = {
-  id: number;
-  name: string;
-  sauceId: number;
-  toppingIds: number[];  // <-- Correct type definition
 }
 
 export interface Topping {
