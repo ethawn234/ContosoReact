@@ -1,8 +1,8 @@
-import { SauceDTO } from "../../types/data-contracts";
+import { SauceDTO, ToppingDTO } from "../../types/data-contracts";
 import { useFieldContext, useFormContext } from "./context";
 import { useStore } from '@tanstack/react-form';
 
-// function FieldInfo({ field }: { field: AnyFieldApi }) {
+// export function FieldInfo({ field }: { field: AnyFieldApi }) {
 //   return (
 //     <>
 //       {field.state.meta.isTouched && field.state.meta.errors.length ? (
@@ -12,6 +12,7 @@ import { useStore } from '@tanstack/react-form';
 //     </>
 //   )
 // }
+
 export function TextField({ label }: { label: string }){
     const field = useFieldContext<string>();
     const errors = useStore(field.store, state => state.meta.errors)
@@ -35,20 +36,20 @@ export function TextField({ label }: { label: string }){
     )
 }
 
-export function RadioField({ label, sauce }: { label: string, sauce: SauceDTO }){
+export function RadioField({ label, option }: { label: string, option: SauceDTO | ToppingDTO }){
     const field = useFieldContext<number>();
     const errors = useStore(field.store, state => state.meta.errors);
-    console.log('sauce: ', sauce)
+    // console.log('option: ', option)
     // label is not correctly rendered
-    // value should hold sauce id
+    // value should hold option id
     // onChange should add to PizzaCreateDTO?
-    console.log('field: ', field)
-    console.log('errors: ', errors)
-    console.log('label: ', label)
+    // console.log('field: ', field)
+    // console.log('errors: ', errors)
+    // console.log('label: ', label)
     return (
         <div>
-            <input type="radio" id={sauce.name} title={label} value={sauce.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
-            <label htmlFor={sauce.name}>{sauce.name}</label>
+            <input name={option?.toString()} type="radio" id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
+            <label htmlFor={option?.name}>{option?.name}</label>
             {
                 errors.map((error: string) => (
                     <div key={error} style={{ color: 'red' }}>{error}</div>
