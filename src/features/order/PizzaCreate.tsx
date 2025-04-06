@@ -25,12 +25,12 @@ export default function PizzaCreate(){
     defaultValues: {
       id: 0,
       name: '',
-      sauceId: 0, // num|str
+      sauceId: 1, // num|str
       toppingIds: [] // make unique set; num|str
     },
     onSubmit: async ({ formApi, value}) => {
-      await mutate.mutateAsync(value);
-
+      // await mutate.mutateAsync(value);
+      console.log('value: ', value)
       // formApi.reset();
     }
   })
@@ -57,7 +57,7 @@ export default function PizzaCreate(){
                 <form.AppField
                   name='sauceId'
                   key={sauce.id}
-                  children={field => <field.RadioField sauce={sauce} label={sauce.name} />}
+                  children={field => <field.RadioField option={sauce} label={sauce.name} />}
                 />
               )
             })
