@@ -8,15 +8,10 @@ import { useAppForm } from '../../hooks/forms/form';
 import { allSauces } from './constants';
 
 export default function PizzaCreate(){
-  // const [pizza, setPizza] = useState<PizzaCreateDTO>({
-  //   id: 0,
-  //   name: '',
-  //   sauceId: 0, // num|str
-  //   toppingIds: [] // make unique set; num|str
-  // });
   const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
 
   const mutate = useMutation({ // , isPending, isError, isSuccess
+    mutationKey: ['pizzaCreate'],
     mutationFn: async (pizza: PizzaCreateDTO) => postPizza(pizza),
     onSuccess: (data) => setCreatedPizza(data.data)
   });
@@ -29,8 +24,8 @@ export default function PizzaCreate(){
       toppingIds: [] // make unique set; num|str
     },
     onSubmit: async ({ formApi, value}) => {
-      // await mutate.mutateAsync(value);
       console.log('value: ', value)
+      await mutate.mutateAsync(value);
       // formApi.reset();
     }
   })
