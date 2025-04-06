@@ -93,6 +93,18 @@ export interface Topping {
   calories?: number;
 }
 
+export interface ToppingDTO {
+  /** @format int32 */
+  id?: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  /** @format double */
+  calories?: number;
+}
+
 export type ContosoSaucesListData = Sauce[];
 
 export type ContosoToppingsListData = Topping[];
