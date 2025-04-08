@@ -44,6 +44,21 @@ export default function PizzaCreate(){
           <form.AppField
             name='name'
             children={field => <field.TextField label='Pizza Name' />}
+            validators={{
+              onChange: ({ value }) =>
+                !value
+                  ? 'A pizza name is required'
+                  : value.length < 3
+                    ? 'Pizza name must be at least 3 characters'
+                    : undefined,
+              onChangeAsyncDebounceMs: 500,
+              onChangeAsync: async ({ value }) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000))
+                return (
+                  value.includes('error') && 'No "error" allowed in pizza name'
+                )
+              },
+            }}
           />
           
           {
