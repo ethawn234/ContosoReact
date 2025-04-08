@@ -19,13 +19,12 @@ export function TextField({ label }: { label: string }){
     
     return (
         <div>
-            <label>
-            <div>{label}</div>
-            <input 
+            <label htmlFor={label}>{`${label}: `}</label>
+            <input
+                id={label}
                 value={field.state.value} 
                 onChange={e => field.handleChange(e.target.value)} 
             />
-            </label>
             <FieldInfo field={field} />
         </div>
         
