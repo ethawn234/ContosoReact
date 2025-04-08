@@ -36,7 +36,7 @@ export default function PizzaCreate(){
 
   return (
     <>
-      <h1>Order</h1>
+      <h1>Order Pizza</h1>
       <form onSubmit={e => {
         e.preventDefault();
         form.handleSubmit();
@@ -60,7 +60,7 @@ export default function PizzaCreate(){
               },
             }}
           />
-          
+          <hr />
           {
             allSauces.map(sauce => {
               return (
