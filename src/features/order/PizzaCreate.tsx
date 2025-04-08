@@ -22,7 +22,7 @@ export default function PizzaCreate(){
       name: '',
       sauceId: 1, // num|str
       toppingIds: [] // make unique set; num|str
-    },
+    } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value}) => {
       console.log('value: ', value)
       await mutate.mutateAsync(value);
