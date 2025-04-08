@@ -1,21 +1,21 @@
 import { SauceDTO, ToppingDTO } from "../../types/data-contracts";
 import { useFieldContext, useFormContext } from "./context";
-import { useStore } from '@tanstack/react-form';
+import { AnyFieldApi, useStore } from '@tanstack/react-form';
 
-// export function FieldInfo({ field }: { field: AnyFieldApi }) {
-//   return (
-//     <>
-//       {field.state.meta.isTouched && field.state.meta.errors.length ? (
-//         <em>{field.state.meta.errors.join(',')}</em>
-//       ) : null}
-//       {field.state.meta.isValidating ? 'Validating...' : null}
-//     </>
-//   )
-// }
+export function FieldInfo({ field }: { field: AnyFieldApi }) {
+  return (
+    <>
+      {field.state.meta.isTouched && field.state.meta.errors.length ? (
+        <em style={{ color: 'red' }}>{field.state.meta.errors.join(',')}</em>
+      ) : null}
+      {field.state.meta.isValidating ? 'Validating...' : null}
+    </>
+  )
+}
 
 export function TextField({ label }: { label: string }){
     const field = useFieldContext<string>();
-    const errors = useStore(field.store, state => state.meta.errors)
+    // const errors = useStore(field.store, state => state.meta.errors)
     
     return (
         <div>
@@ -26,11 +26,7 @@ export function TextField({ label }: { label: string }){
                 onChange={e => field.handleChange(e.target.value)} 
             />
             </label>
-            {
-                errors.map((error: string) => (
-                    <div key={error} style={{ color: 'red' }}>{error}</div>
-                ))
-            }
+            <FieldInfo field={field} />
         </div>
         
     )
