@@ -5,7 +5,7 @@ import { postPizza } from '../../api/ContosoPizzaService';
 import { PizzaCreateDTO, PizzaDTO } from '../../types/data-contracts';
 import Table from '../../components/Table';
 import { useAppForm } from '../../hooks/forms/form';
-import { allSauces } from './constants';
+import { allSauces, allToppings } from './constants';
 
 export default function PizzaCreate(){
   const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
@@ -21,7 +21,7 @@ export default function PizzaCreate(){
       id: 0,
       name: '',
       sauceId: 1, // num|str
-      toppingIds: [] // make unique set; num|str
+      toppingIds: [1] // make unique set; num|str
     } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value}) => {
       console.log('value: ', value)
@@ -73,7 +73,15 @@ export default function PizzaCreate(){
             })
           }
           <hr />
-          {/* <div>
+          {
+            allToppings.map(topping => (
+              <form.AppField 
+                name='toppingIds'
+                key={topping.id}
+                children={field => <field.RadioField option={topping} label={topping.name} />}
+              />
+            ))
+          /* <div>
             <div>
               <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
               <label htmlFor='Pepperoni'>Pepperoni</label>

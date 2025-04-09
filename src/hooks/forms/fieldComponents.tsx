@@ -34,16 +34,14 @@ export function TextField({ label }: { label: string }){
 export function RadioField({ label, option }: { label: string, option: SauceDTO | ToppingDTO }){
     const field = useFieldContext<number>();
     const errors = useStore(field.store, state => state.meta.errors);
-    // console.log('option: ', option)
-    // label is not correctly rendered
-    // value should hold option id
-    // onChange should add to PizzaCreateDTO?
-    // console.log('field: ', field)
-    // console.log('errors: ', errors)
-    // console.log('label: ', label)
+    console.log('option: ', option)
+    console.log('label: ', label)
+    const optionType = 'isVegan' in option ? option?.toString() : label
+    console.log('optionType: ', optionType)
+
     return (
         <div>
-            <input name={option?.toString()} type="radio" id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
+            <input name={'isVegan' in option ? option?.toString() : label} type="radio" id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
             <label htmlFor={option?.name}>{option?.name}</label>
             {
                 errors.map((error: string) => (
