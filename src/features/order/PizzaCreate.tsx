@@ -21,7 +21,7 @@ export default function PizzaCreate(){
       id: 0,
       name: '',
       sauceId: 1, // num|str
-      toppingIds: [1] // make unique set; num|str
+      toppingIds: [] // make unique set; num|str
     } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value}) => {
       console.log('value: ', value)
@@ -29,6 +29,7 @@ export default function PizzaCreate(){
       // formApi.reset();
     }
   })
+
 
   // const handleToppings = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, toppingIds: [ ...prevPizza.toppingIds, Number(e.target.value) ] }));
 
@@ -74,31 +75,14 @@ export default function PizzaCreate(){
           }
           <hr />
           {
-            allToppings.map(topping => (
+            allToppings.map((toppingSubField, i) => (
               <form.AppField 
                 name='toppingIds'
-                key={topping.id}
-                children={field => <field.RadioField option={topping} label={topping.name} />}
-              />
+                key={i}
+                children={field => <field.CheckboxField option={toppingSubField} label={toppingSubField.name} />}
+              />                
             ))
-          /* <div>
-            <div>
-              <input type="checkbox" name="Pepperoni" value={1} defaultChecked />
-              <label htmlFor='Pepperoni'>Pepperoni</label>
-              <input type="checkbox" name="Sausage" value={2} />
-              <label htmlFor='Sausage'>Sausage</label>
-              <input type="checkbox" name="Ham" value={3} />
-              <label htmlFor='Ham'>Ham</label>
-            </div>
-            <div>
-              <input type="checkbox" name="Chicken" value={4} />
-              <label htmlFor='Chicken'>Chicken</label>
-              <input type="checkbox" name="Pineapple" value={5} />
-              <label htmlFor='Pineapple'>Pineapple</label>
-            </div>
-          </div>
-          <br />          
-          <br /> */}
+          }
           <form.AppForm>
             <form.SubscribeButton label="sss"/>
           </form.AppForm>

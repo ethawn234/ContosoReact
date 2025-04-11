@@ -34,15 +34,37 @@ export function TextField({ label }: { label: string }){
 export function RadioField({ label, option }: { label: string, option: SauceDTO | ToppingDTO }){
     const field = useFieldContext<number>();
     const errors = useStore(field.store, state => state.meta.errors);
-    console.log('option: ', option)
-    console.log('label: ', label)
-    const optionType = 'isVegan' in option ? option?.toString() : label
-    console.log('optionType: ', optionType)
+    // console.log('option: ', JSON.stringify(option))
+    // console.log('label: ', label)
+    const inputType = 'isVegan' in option ? 'radio' : 'checkbox'; // radio for Sauce, checkbox for Topping
+    const isMultipleSelection = 'isVegan' in option ? option?.name : 'topping';
+    // console.log('optionType: ', inputType)
 
     return (
         <div>
-            <input name={'isVegan' in option ? option?.toString() : label} type="radio" id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
-            <label htmlFor={option?.name}>{option?.name}</label>
+            <input name={isMultipleSelection} type={inputType} id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
+            <label htmlFor={isMultipleSelection}>{option?.name}</label>
+            {
+                errors.map((error: string) => (
+                    <div key={error} style={{ color: 'red' }}>{error}</div>
+                ))
+            }
+        </div>
+    )
+}
+
+export function CheckboxField({ label, option }: { label: string, option: ToppingDTO }){
+    const field = useFieldContext<number[]>();
+    const errors = useStore(field.store, state => state.meta.errors);
+
+    const toggleTopping = (e: number) => {
+        field.state.value.includes(e) ? field.removeValue(e) : field.pushValue(e);
+    }
+    
+    return (
+        <div>
+            <input name='topping' type='checkbox' id={label} title={label} value={option?.id} onChange={e => toggleTopping(parseInt(e.target.value))} />
+            <label htmlFor={label}>{option?.name}</label>
             {
                 errors.map((error: string) => (
                     <div key={error} style={{ color: 'red' }}>{error}</div>
