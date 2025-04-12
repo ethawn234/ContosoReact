@@ -100,7 +100,7 @@ export interface Topping {
 
 export interface ToppingDTO {
   /** @format int32 */
-  id?: number;
+  id: number; // id doesn't need to be optional in client or server
   /**
    * @minLength 1
    * @maxLength 100
