@@ -55,15 +55,20 @@ export function RadioField({ label, option }: { label: string, option: SauceDTO 
 
 export function CheckboxField({ label, option }: { label: string, option: ToppingDTO }){
     const field = useFieldContext<number[]>();
+
     const errors = useStore(field.store, state => state.meta.errors);
 
     const toggleTopping = (e: number) => {
-        field.state.value.includes(e) ? field.removeValue(e) : field.pushValue(e);
+        field.handleChange(
+            field.state.value.includes(e)
+            ? field.state.value.filter(id => id == e)
+            : [...field.state.value, e]
+        )
     }
     
     return (
         <div>
-            <input name='topping' type='checkbox' id={label} title={label} value={option?.id} onChange={e => toggleTopping(parseInt(e.target.value))} />
+            <input checked={field.state.value.includes(Number(option.id))} name='topping' type='checkbox' id={label} title={label} value={option?.id} onChange={e => toggleTopping(Number(e.target.value))} />
             <label htmlFor={label}>{option?.name}</label>
             {
                 errors.map((error: string) => (
