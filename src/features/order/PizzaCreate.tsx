@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../../api/ContosoPizzaService';
@@ -20,20 +20,14 @@ export default function PizzaCreate(){
     defaultValues: {
       id: 0,
       name: '',
-      sauceId: 1, // num|str
+      sauceId: 0, // num|str
       toppingIds: [] // make unique set; num|str
     } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value}) => {
-      console.log('value: ', value)
       await mutate.mutateAsync(value);
-      // formApi.reset();
+      formApi.reset();
     }
   })
-
-
-  // const handleToppings = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, toppingIds: [ ...prevPizza.toppingIds, Number(e.target.value) ] }));
-
-  // const handleSauce = (e: ChangeEvent<HTMLSelectElement>) => setPizza(prevPizza => ({ ...prevPizza, sauceId: Number(e.target.value) }));
 
   return (
     <>
@@ -54,7 +48,7 @@ export default function PizzaCreate(){
                     : undefined,
               onChangeAsyncDebounceMs: 500,
               onChangeAsync: async ({ value }) => {
-                await new Promise((resolve) => setTimeout(resolve, 1000))
+                await new Promise((resolve) => setTimeout(resolve, 500))
                 return (
                   value.includes('error') && 'No "error" allowed in pizza name'
                 )
@@ -84,12 +78,12 @@ export default function PizzaCreate(){
             ))
           }
           <form.AppForm>
-            <form.SubscribeButton label="sss"/>
+            <form.SubscribeButton label="Order"/>
           </form.AppForm>
           
       </form>
       {
-        createdPizza ? <Table data={[createdPizza]} /> : null//<Table data={[pizza]} />
+        createdPizza ? <Table data={[createdPizza]} /> : null
       }
     </>
   )
