@@ -1,27 +1,25 @@
-import { useEffect, useState } from 'react';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { postPizza } from '../../api/ContosoPizzaService';
-import { PizzaCreateDTO, PizzaDTO } from '../../types/data-contracts';
+import { PizzaCreateDTO } from '../../types/data-contracts';
 import Table from '../../components/Table';
 import { useAppForm } from '../../hooks/forms/form';
 import { allSauces, allToppings } from './constants';
 
 export default function PizzaCreate(){
-  const [createdPizza, setCreatedPizza] = useState<PizzaDTO>();
 
   const mutate = useMutation({ // , isPending, isError, isSuccess
     mutationKey: ['pizzaCreate'],
-    mutationFn: async (pizza: PizzaCreateDTO) => postPizza(pizza),
-    onSuccess: (data) => setCreatedPizza(data.data)
+    mutationFn: async (pizza: PizzaCreateDTO) => postPizza(pizza)
   });
 
   const form = useAppForm({ 
     defaultValues: {
       id: 0,
       name: '',
-      sauceId: 0, // num|str
-      toppingIds: [] // make unique set; num|str
+      sauceId: 0,
+      toppingIds: []
     } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value}) => {
       await mutate.mutateAsync(value);
@@ -83,7 +81,7 @@ export default function PizzaCreate(){
           
       </form>
       {
-        createdPizza ? <Table data={[createdPizza]} /> : null
+        form.state.values.id != 0 ? <Table data={[form.state.values]} /> : null
       }
     </>
   )
