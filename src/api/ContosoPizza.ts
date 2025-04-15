@@ -29,7 +29,9 @@ import {
 } from "../types/data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class ContosoPizza<
+  SecurityDataType = unknown,
+> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *
@@ -155,21 +157,21 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
       format: "json",
       ...params,
     });
-    /**
-     * No description
-     *
-     * @tags ContosoPizza
-     * @name getToppings
-     * @summary Select a topping and add it to your pizza!
-     * @request GET:/api/topping
-     */
-    getSauces = (params: RequestParams = {}) =>
-      this.request<ContosoSaucesListData, any>({
-        path: `/api/sauces`,
-        method: "GET",
-        format: "json",
-        ...params,
-      });
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
+   * @name getToppings
+   * @summary Select a topping and add it to your pizza!
+   * @request GET:/api/topping
+   */
+  getSauces = (params: RequestParams = {}) =>
+    this.request<ContosoSaucesListData, any>({
+      path: `/api/sauces`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
   /**
    * No description
    *

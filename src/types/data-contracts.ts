@@ -51,8 +51,8 @@ export type PizzaCreateDTO = {
    */
   name: string;
   sauceId: number;
-  toppingIds: number[];  // <-- Correct type definition
-}
+  toppingIds: number[]; // <-- Correct type definition
+};
 
 export interface ProblemDetails {
   type?: string | null;
