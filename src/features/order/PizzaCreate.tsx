@@ -55,6 +55,17 @@ export default function PizzaCreate() {
           }}
         />
         <hr />
+        {/* 
+        on PizzaDTO, Sauce & Toppings are typed Sauce & Toppings
+        on PizzaCreateDTO, Sauce & Toppings are typed int & int[]
+
+        1. convert PizzaCreateDTO to PizzaDTO
+          - pro: won't need to write more complicated logic in Table
+          - con: how will this handle onChange?
+        2. Convert in Table
+          - pro: adheres better to separation of concerns; all Table logic is grouped 
+          - con: 
+        */}
         {allSauces.map((sauce) => {
           return (
             <form.AppField
@@ -83,7 +94,13 @@ export default function PizzaCreate() {
           <form.SubscribeButton label="Order" />
         </form.AppForm>
       </form>
-      {form.state.values.id != 0 ? <Table data={[form.state.values]} /> : null}
+      <form.Subscribe
+        selector={(pizza) => pizza.values}
+        children={(pizza) => {
+          console.log("pizza: ", pizza);
+          return <Table data={[pizza]} />;
+        }}
+      />
     </>
   );
 }
