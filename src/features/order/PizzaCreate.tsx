@@ -8,7 +8,6 @@ import { useAppForm } from '../../hooks/forms/form';
 import { allSauces, allToppings } from './constants';
 
 export default function PizzaCreate(){
-
   const mutate = useMutation({ // , isPending, isError, isSuccess
     mutationKey: ['pizzaCreate'],
     mutationFn: async (pizza: PizzaCreateDTO) => postPizza(pizza)
@@ -60,7 +59,7 @@ export default function PizzaCreate(){
                 <form.AppField
                   name='sauceId'
                   key={sauce.id}
-                  children={field => <field.RadioField option={sauce} label={sauce.name} />}
+                  children={field => <field.SauceField option={sauce} label={sauce.name} />}
                 />
               )
             })
@@ -71,7 +70,7 @@ export default function PizzaCreate(){
               <form.AppField 
                 name='toppingIds'
                 key={i}
-                children={field => <field.CheckboxField option={toppingSubField} label={toppingSubField.name} />}
+                children={field => <field.ToppingField option={toppingSubField} label={toppingSubField.name} />}
               />                
             ))
           }

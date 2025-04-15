@@ -15,7 +15,6 @@ export function FieldInfo({ field }: { field: AnyFieldApi }) {
 
 export function TextField({ label }: { label: string }){
     const field = useFieldContext<string>();
-    // const errors = useStore(field.store, state => state.meta.errors)
     
     return (
         <div>
@@ -31,19 +30,14 @@ export function TextField({ label }: { label: string }){
     )
 }
 
-export function RadioField({ label, option }: { label: string, option: SauceDTO | ToppingDTO }){
+export function SauceField({ label, option }: { label: string, option: SauceDTO }){
     const field = useFieldContext<number>();
     const errors = useStore(field.store, state => state.meta.errors);
-    // console.log('option: ', JSON.stringify(option))
-    // console.log('label: ', label)
-    const inputType = 'isVegan' in option ? 'radio' : 'checkbox'; // radio for Sauce, checkbox for Topping
-    const isMultipleSelection = 'isVegan' in option ? option?.name : 'topping';
-    // console.log('optionType: ', inputType)
 
     return (
         <div>
-            <input name={isMultipleSelection} type={inputType} id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
-            <label htmlFor={isMultipleSelection}>{option?.name}</label>
+            <input name='sauce' type='radio' id={option?.name ?? ''} title={label} checked={field.state.value === option.id} value={option?.id} onChange={e => field.handleChange(parseInt(e.target.value))} />
+            <label htmlFor='sauce'>{option?.name}</label>
             {
                 errors.map((error: string) => (
                     <div key={error} style={{ color: 'red' }}>{error}</div>
@@ -53,9 +47,8 @@ export function RadioField({ label, option }: { label: string, option: SauceDTO 
     )
 }
 
-export function CheckboxField({ label, option }: { label: string, option: ToppingDTO }){
+export function ToppingField({ label, option }: { label: string, option: ToppingDTO }){
     const field = useFieldContext<number[]>();
-
     const errors = useStore(field.store, state => state.meta.errors);
 
     const toggleTopping = (e: number) => {
@@ -76,17 +69,6 @@ export function CheckboxField({ label, option }: { label: string, option: Toppin
                 ))
             }
         </div>
-    )
-}
-
-export function NumberField({ label }: { label: number[] }){
-    const field = useFieldContext<number>();
-
-    return (
-        <label>
-            <div>{label}</div>
-            <input value={field.state.value} onChange={e => field.handleChange(parseInt(e.target.value) ?? parseInt(e.target.value))} />
-        </label>
     )
 }
 

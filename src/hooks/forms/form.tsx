@@ -6,20 +6,17 @@ import { SubscribeButton } from './fieldComponents';
 
 const TextField = lazy(() => import('./fieldComponents').then(m => ({ default: m.TextField })));
 
-const RadioField = lazy(() => import('./fieldComponents').then(m => ({ default: m.RadioField })));
+const SauceField = lazy(() => import('./fieldComponents').then(m => ({ default: m.SauceField })));
 
-const NumberField = lazy(() => import('./fieldComponents').then(m => ({ default: m.NumberField })));
-
-const CheckboxField = lazy(() => import('./fieldComponents').then(m => ({ default: m.CheckboxField })))
+const ToppingField = lazy(() => import('./fieldComponents').then(m => ({ default: m.ToppingField })))
 
 export const { useAppForm } = createFormHook({
     fieldContext,
     formContext,
     fieldComponents: {
         TextField,
-        RadioField,
-        CheckboxField,
-        NumberField
+        SauceField,
+        ToppingField
     },
     formComponents: {
         SubscribeButton
