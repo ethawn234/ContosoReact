@@ -50,7 +50,7 @@ export type PizzaCreateDTO = {
    * @maxLength 100
    */
   name: string;
-  sauceId: number;
+  sauceId?: number;
   toppingIds: number[]; // <-- Correct type definition
 };
 
