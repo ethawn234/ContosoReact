@@ -21,6 +21,7 @@ export function TextField({ label }: { label: string }) {
       <label htmlFor={label}>{`${label}: `}</label>
       <input
         id={label}
+        name="name"
         value={field.state.value}
         onChange={(e) => field.handleChange(e.target.value)}
       />
@@ -36,7 +37,7 @@ export function SauceField({
   label: string;
   option: SauceDTO;
 }) {
-  const field = useFieldContext<number>();
+  const field = useFieldContext<number | undefined>();
   const errors = useStore(field.store, (state) => state.meta.errors);
 
   return (
@@ -73,10 +74,12 @@ export function ToppingField({
   const toggleTopping = (e: number) => {
     field.handleChange(
       field.state.value.includes(e)
-        ? field.state.value.filter((id) => id == e)
-        : [...field.state.value, e],
+        ? field.state.value.filter((id) => id != e)
+        : [...field.state.value, e]
     );
   };
+
+  console.log("field.state.value: ", field.state.value);
 
   return (
     <div>
