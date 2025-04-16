@@ -46,7 +46,7 @@ export default function PizzaCreate() {
         onChange={(e) => {
           // console.log("e.target: ", e.target);
           const val = e.target.value;
-          console.log("val: ", val);
+          // console.log("val: ", val);
           const fieldType = e.target.name;
           // console.log("fieldType: ", fieldType);
           const key =

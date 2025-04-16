@@ -79,7 +79,7 @@ export function ToppingField({
     );
   };
 
-  console.log("field.state.value: ", field.state.value);
+  // console.log("field.state.value: ", field.state.value);
 
   return (
     <div>
