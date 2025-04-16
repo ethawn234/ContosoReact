@@ -5,8 +5,15 @@ import { PizzaCreateDTO } from "../../types/data-contracts";
 import Table from "../../components/Table";
 import { useAppForm } from "../../hooks/forms/form";
 import { allSauces, allToppings } from "./constants";
+import { useEffect, useState } from "react";
 
 export default function PizzaCreate() {
+  const [order, setOrder] = useState<PizzaCreateDTO>({
+    id: 0,
+    name: "",
+    sauceId: undefined,
+    toppingIds: [],
+  });
   const mutate = useMutation({
     // , isPending, isError, isSuccess
     mutationKey: ["pizzaCreate"],
@@ -26,6 +33,8 @@ export default function PizzaCreate() {
     },
   });
 
+  useEffect(() => console.log("order: ", order), [order]);
+
   return (
     <>
       <h1>Order Pizza</h1>
@@ -33,6 +42,35 @@ export default function PizzaCreate() {
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
+        }}
+        onChange={(e) => {
+          // console.log("e.target: ", e.target);
+          const val = e.target.value;
+          console.log("val: ", val);
+          const fieldType = e.target.name;
+          // console.log("fieldType: ", fieldType);
+          const key =
+            fieldType === "sauce"
+              ? "sauceId"
+              : fieldType === "topping"
+                ? "toppingIds"
+                : "name";
+
+          if (key === "toppingIds") {
+            if (order.toppingIds.includes(val)) {
+              setOrder((prev) => ({
+                ...prev,
+                [key]: [...prev.toppingIds.filter((id) => id != val)],
+              }));
+            } else {
+              setOrder((prev) => ({
+                ...prev,
+                [key]: [...prev.toppingIds, val],
+              }));
+            }
+          } else {
+            setOrder((prev) => ({ ...prev, [key]: val }));
+          }
         }}
       >
         <form.AppField
@@ -94,13 +132,14 @@ export default function PizzaCreate() {
           <form.SubscribeButton label="Order" />
         </form.AppForm>
       </form>
-      <form.Subscribe
+      {/* <form.Subscribe
         selector={(pizza) => pizza.values}
         children={(pizza) => {
-          console.log("pizza: ", pizza);
+          // console.log("pizza: ", pizza);
           return <Table data={[pizza]} />;
         }}
-      />
+      /> */}
+      <Table data={[order]} />
     </>
   );
 }
