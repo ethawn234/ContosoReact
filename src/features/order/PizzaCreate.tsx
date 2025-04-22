@@ -42,10 +42,9 @@ export default function PizzaCreate() {
           form.handleSubmit();
         }}
         onChange={(e) => {
-          // const val = e.target?.value;
-          const val = e.currentTarget.value;
+          const val = e.target?.value;
           // console.log("val: ", val);
-          const fieldType = e.currentTarget.name;
+          const fieldType = e.target.name;
           // console.log("fieldType: ", fieldType);
           const key =
             fieldType === "sauce"
