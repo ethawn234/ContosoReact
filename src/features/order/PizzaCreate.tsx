@@ -33,8 +33,6 @@ export default function PizzaCreate() {
     },
   });
 
-  useEffect(() => console.log("order: ", order), [order]);
-
   return (
     <>
       <h1>Order Pizza</h1>
@@ -44,7 +42,6 @@ export default function PizzaCreate() {
           form.handleSubmit();
         }}
         onChange={(e) => {
-          // console.log("e.target: ", e.target);
           const val = e.target.value;
           // console.log("val: ", val);
           const fieldType = e.target.name;
@@ -93,17 +90,6 @@ export default function PizzaCreate() {
           }}
         />
         <hr />
-        {/* 
-        on PizzaDTO, Sauce & Toppings are typed Sauce & Toppings
-        on PizzaCreateDTO, Sauce & Toppings are typed int & int[]
-
-        1. convert PizzaCreateDTO to PizzaDTO
-          - pro: won't need to write more complicated logic in Table
-          - con: how will this handle onChange?
-        2. Convert in Table
-          - pro: adheres better to separation of concerns; all Table logic is grouped 
-          - con: 
-        */}
         {allSauces.map((sauce) => {
           return (
             <form.AppField
