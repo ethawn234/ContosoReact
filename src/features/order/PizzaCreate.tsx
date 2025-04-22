@@ -5,7 +5,7 @@ import { PizzaCreateDTO } from "../../types/data-contracts";
 import Table from "../../components/Table";
 import { useAppForm } from "../../hooks/forms/form";
 import { allSauces, allToppings } from "./constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function PizzaCreate() {
   const [order, setOrder] = useState<PizzaCreateDTO>({
@@ -42,9 +42,10 @@ export default function PizzaCreate() {
           form.handleSubmit();
         }}
         onChange={(e) => {
-          const val = e.target.value;
+          // const val = e.target?.value;
+          const val = e.currentTarget.value;
           // console.log("val: ", val);
-          const fieldType = e.target.name;
+          const fieldType = e.currentTarget.name;
           // console.log("fieldType: ", fieldType);
           const key =
             fieldType === "sauce"
