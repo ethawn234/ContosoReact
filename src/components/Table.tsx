@@ -61,6 +61,7 @@ export default function Table<
               //   }
               // })();
 
+              // extract names from all
               const formattedData = Array.isArray(item[col])
                 ? item[col].map((prop) => prop.name).join(", ") // handle arrays (toppings)
                 : typeof item[col] == "object" &&

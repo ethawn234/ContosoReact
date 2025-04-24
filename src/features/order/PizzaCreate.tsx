@@ -42,10 +42,10 @@ export default function PizzaCreate() {
           form.handleSubmit();
         }}
         onChange={(e) => {
-          const val = e.target?.value;
-          // console.log("val: ", val);
           const fieldType = e.target.name;
           // console.log("fieldType: ", fieldType);
+          const val = e.target?.value;
+          // console.log("val: ", val);
           const key =
             fieldType === "sauce"
               ? "sauceId"
@@ -114,6 +114,7 @@ export default function PizzaCreate() {
             )}
           />
         ))}
+        <Table data={[order]} />
         <form.AppForm>
           <form.SubscribeButton label="Order" />
         </form.AppForm>
@@ -125,7 +126,6 @@ export default function PizzaCreate() {
           return <Table data={[pizza]} />;
         }}
       /> */}
-      <Table data={[order]} />
     </>
   );
 }
