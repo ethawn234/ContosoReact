@@ -12,7 +12,9 @@
 import { CouponListData } from "../types/data-contracts";
 import { HttpClient, RequestParams } from "./http-client";
 
-export class Coupon<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class Coupon<
+  SecurityDataType = unknown,
+> extends HttpClient<SecurityDataType> {
   /**
    * No description
    *

@@ -20,14 +20,31 @@ import {
   ContosoPizzaDetailData,
   ContosoPizzaDetailError,
   ContosoPizzaListData,
+  ContosoSaucesListData,
+  ContosoToppingsListData,
   GetRootData,
-  Pizza,
+  PizzaCreateDTO,
   UpdatesauceUpdateData,
   UpdatesauceUpdateError,
 } from "../types/data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
-export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
+export class ContosoPizza<
+  SecurityDataType = unknown,
+> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
+   * @name GetRoot
+   * @request GET:/
+   */
+  getRoot = (params: RequestParams = {}) =>
+    this.request<GetRootData, any>({
+      path: `/`,
+      method: "GET",
+      ...params,
+    });
   /**
    * No description
    *
@@ -79,7 +96,7 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
    * @summary Create a new Pizza
    * @request POST:/ContosoPizza
    */
-  contosoPizzaCreate = (data: Pizza, params: RequestParams = {}) =>
+  contosoPizzaCreate = (data: PizzaCreateDTO, params: RequestParams = {}) =>
     this.request<ContosoPizzaCreateData, ContosoPizzaCreateError>({
       path: `/ContosoPizza`,
       method: "POST",
@@ -136,6 +153,36 @@ export class ContosoPizza<SecurityDataType = unknown> extends HttpClient<Securit
       path: `/ContosoPizza/${pizzaId}/addtopping`,
       method: "PUT",
       query: query,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
+   * @name getToppings
+   * @summary Select a topping and add it to your pizza!
+   * @request GET:/api/topping
+   */
+  getToppings = (params: RequestParams = {}) =>
+    this.request<ContosoToppingsListData, any>({
+      path: `/api/topping`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags ContosoPizza
+   * @name getToppings
+   * @summary Select a topping and add it to your pizza!
+   * @request GET:/api/topping
+   */
+  getSauces = (params: RequestParams = {}) =>
+    this.request<ContosoSaucesListData, any>({
+      path: `/api/sauces`,
+      method: "GET",
+      format: "json",
       ...params,
     });
   /**

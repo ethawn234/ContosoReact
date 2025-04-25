@@ -42,6 +42,18 @@ export interface PizzaDTO {
   toppings?: Topping[] | null;
 }
 
+export type PizzaCreateDTO = {
+  /** @format int32 */
+  id: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  sauceId?: number;
+  toppingIds: number[]; // <-- Correct type definition
+};
+
 export interface ProblemDetails {
   type?: string | null;
   title?: string | null;
@@ -53,6 +65,17 @@ export interface ProblemDetails {
 }
 
 export interface Sauce {
+  /** @format int32 */
+  id?: number;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  isVegan?: boolean;
+}
+
+export interface SauceDTO {
   /** @format int32 */
   id?: number;
   /**
@@ -75,13 +98,29 @@ export interface Topping {
   calories?: number;
 }
 
+export interface ToppingDTO {
+  /** @format int32 */
+  id: number; // id doesn't need to be optional in client or server
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  name: string;
+  /** @format double */
+  calories?: number;
+}
+
+export type ContosoSaucesListData = Sauce[];
+
+export type ContosoToppingsListData = Topping[];
+
 export type GetRootData = string;
 
 export type AdminListData = Pizza[];
 
 export type ContosoPizzaListData = PizzaDTO[];
 
-export type ContosoPizzaCreateData = any;
+export type ContosoPizzaCreateData = PizzaCreateDTO;
 
 export type ContosoPizzaCreateError = ProblemDetails;
 
