@@ -1,19 +1,14 @@
 import { useMutation } from "@tanstack/react-query";
-
+import { useStore } from '@tanstack/react-store';
 import { postPizza } from "../../api/ContosoPizzaService";
 import { PizzaCreateDTO } from "../../types/data-contracts";
 import Table from "../../components/Table";
 import { useAppForm } from "../../hooks/forms/form";
 import { allSauces, allToppings } from "./constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function PizzaCreate() {
-  const [order, setOrder] = useState<PizzaCreateDTO>({
-    id: 0,
-    name: "",
-    sauceId: undefined,
-    toppingIds: [],
-  });
+  const [order, setOrder] = useState<PizzaCreateDTO | null>(null);
   const mutate = useMutation({
     // , isPending, isError, isSuccess
     mutationKey: ["pizzaCreate"],
@@ -29,9 +24,18 @@ export default function PizzaCreate() {
     } as PizzaCreateDTO,
     onSubmit: async ({ formApi, value }) => {
       await mutate.mutateAsync(value);
+      setOrder(value);
       formApi.reset();
     },
   });
+  
+  const nameValue = useStore(form.baseStore, (s) => s.values.name);
+
+  useEffect(() => {
+    if (mutate.status === "success" && order && nameValue !== order.name) {
+      setOrder(null);
+    }
+  }, [nameValue, order]);
 
   return (
     <>
@@ -40,34 +44,6 @@ export default function PizzaCreate() {
         onSubmit={(e) => {
           e.preventDefault();
           form.handleSubmit();
-        }}
-        onChange={(e) => {
-          const fieldType = e.target.name;
-          // console.log("fieldType: ", fieldType);
-          const val = e.target?.value;
-          // console.log("val: ", val);
-          const key =
-            fieldType === "sauce"
-              ? "sauceId"
-              : fieldType === "topping"
-                ? "toppingIds"
-                : "name";
-
-          if (key === "toppingIds") {
-            if (order.toppingIds.includes(val)) {
-              setOrder((prev) => ({
-                ...prev,
-                [key]: [...prev.toppingIds.filter((id) => id != val)],
-              }));
-            } else {
-              setOrder((prev) => ({
-                ...prev,
-                [key]: [...prev.toppingIds, val],
-              }));
-            }
-          } else {
-            setOrder((prev) => ({ ...prev, [key]: val }));
-          }
         }}
       >
         <form.AppField
@@ -114,18 +90,29 @@ export default function PizzaCreate() {
             )}
           />
         ))}
-        <Table data={[order]} />
+        {
+          order ? 
+            <>
+              <p>You ordered:</p>
+              <Table data={[order]} />
+            </> :
+            <form.Subscribe
+              selector={(pizza) => pizza.values}
+              children={(pizza) => {
+                return (
+                  <>
+                    <p>Current Order:</p>
+                    <Table data={[pizza]} />
+                  </>
+                )
+            }}
+          />
+        }
         <form.AppForm>
           <form.SubscribeButton label="Order" />
         </form.AppForm>
       </form>
-      {/* <form.Subscribe
-        selector={(pizza) => pizza.values}
-        children={(pizza) => {
-          // console.log("pizza: ", pizza);
-          return <Table data={[pizza]} />;
-        }}
-      /> */}
+      
     </>
   );
 }
