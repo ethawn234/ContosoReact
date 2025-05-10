@@ -49,19 +49,6 @@ export class ContosoPizza<
    * No description
    *
    * @tags ContosoPizza
-   * @name GetRoot
-   * @request GET:/
-   */
-  getRoot = (params: RequestParams = {}) =>
-    this.request<GetRootData, any>({
-      path: `/`,
-      method: "GET",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags ContosoPizza
    * @name AdminList
    * @summary Admin Fetch returns all fields including secret fields
    * @request GET:/ContosoPizza/admin
