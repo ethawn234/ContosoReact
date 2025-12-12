@@ -1,0 +1,39 @@
+name: Sync Issue to Jira
+
+# This workflow can be triggered manually to sync the latest GitHub issue to Jira
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'GitHub issue number to sync (leave empty for latest)'
+        required: false
+        type: string
+
+jobs:
+  sync-to-jira:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Jira sync script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JIRA_HOST: ${{ secrets.JIRA_HOST }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_PROJECT_KEY: ${{ secrets.JIRA_PROJECT_KEY }}
+        run: npm run jira:create-ticket
+      
+      - name: Summary
+        if: success()
+        run: echo "✅ Successfully synced GitHub issue to Jira!"

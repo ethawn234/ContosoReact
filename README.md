@@ -2,6 +2,25 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## Jira Integration
+
+This project includes a script to sync GitHub issues to Jira. See [scripts/README.md](scripts/README.md) for detailed setup instructions.
+
+### Quick Start
+
+1. Set up environment variables (see [scripts/README.md](scripts/README.md)):
+   - `JIRA_HOST`
+   - `JIRA_EMAIL`
+   - `JIRA_API_TOKEN`
+   - `JIRA_PROJECT_KEY`
+
+2. Run the sync script:
+   ```bash
+   npm run jira:create-ticket
+   ```
+
+This will create a Jira ticket from the latest GitHub issue in your Jira board.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
