@@ -12,6 +12,7 @@ on:
 jobs:
   copilot-setup-steps:
     runs-on: ubuntu-24.04
+    snapshot: true
 
     permissions:
       contents: read
@@ -19,6 +20,8 @@ jobs:
     env:
       # Force remote MCP usage when possible (does not expose secrets)
       GITHUB_COPILOT_REMOTE_MCP_ENABLED: "true"
+      # Pin to known good runtime version
+      COPILOT_AGENT_RUNTIME_VERSION: "runtime-c2a4720f1096ea422f62ca2443cf0e78cbcfab72"
 
     steps:
       - name: Checkout code
