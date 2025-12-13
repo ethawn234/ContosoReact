@@ -1,0 +1,76 @@
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-24.04
+    snapshot: true
+
+    permissions:
+      contents: read
+
+    env:
+      # Force remote MCP usage when possible (does not expose secrets)
+      GITHUB_COPILOT_REMOTE_MCP_ENABLED: "true"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install JavaScript dependencies
+        run: npm ci
+
+      - name: Start background installation of @playwright/mcp
+        run: |
+          echo "Starting background installation of @playwright/mcp..."
+          npm install -g @playwright/mcp@0.0.40 > /tmp/npm_install.log 2>&1 & disown
+          echo "Started installing @playwright/mcp in the background"
+
+      - name: MCP env presence checks (diagnostic)
+        run: |
+          echo "=== MCP PRESENCE CHECK ==="
+          if [ -n "$GITHUB_COPILOT_MCP_JSON_FROM_INPUT" ]; then echo "MCP_JSON=SET"; else echo "MCP_JSON=MISSING"; fi
+          if [ "$GITHUB_COPILOT_REMOTE_MCP_ENABLED" = "true" ]; then echo "REMOTE_MCP=ENABLED"; else echo "REMOTE_MCP=DISABLED"; fi
+          echo "Runner: $(uname -a)"
+          echo "Docker present:" && docker --version || echo "docker=MISSING"
+          echo "Wrote diagnostic to .github/copilot-setup-diagnostic.txt"
+          {
+            echo "MCP_JSON=$( [ -n \"$GITHUB_COPILOT_MCP_JSON_FROM_INPUT\" ] && echo SET || echo MISSING )"
+            echo "REMOTE_MCP=${GITHUB_COPILOT_REMOTE_MCP_ENABLED:-unset}"
+            echo "RUNNER=$(uname -a)"
+            docker --version 2>/dev/null || echo "docker=MISSING"
+          } > .github/copilot-setup-diagnostic.txt
+
+      - name: Pre-pull Atlassian MCP Docker image (reduces runtime flakiness)
+        run: |
+          echo "Attempting docker pull ghcr.io/sooperset/mcp-atlassian:latest (non-fatal)"
+          docker pull ghcr.io/sooperset/mcp-atlassian:latest || true
+
+      - name: Create safe placeholders for local MCP binaries (prevents ENOENT)
+        run: |
+          mkdir -p .github/copilot-placeholders
+          printf '#!/bin/sh\necho "placeholder mcp server"' > .github/copilot-placeholders/blackbird-mcp-server
+          printf '#!/bin/sh\necho "placeholder mcp server"' > .github/copilot-placeholders/github-mcp-server
+          chmod +x .github/copilot-placeholders/*
+
+      - name: Upload diagnostics artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-setup-diagnostics
+          path: |
+            .github/copilot-setup-diagnostic.txt
+            /tmp/npm_install.log
