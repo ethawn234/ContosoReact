@@ -54,6 +54,31 @@ jobs:
             docker --version 2>/dev/null || echo "docker=MISSING"
           } > .github/copilot-setup-diagnostic.txt
 
+      - name: Capture Copilot Runtime Info
+        if: always()
+        run: |
+          echo "=== RUNTIME CAPTURE ==="
+          echo "Attempting to find Copilot Action files in RUNNER_TEMP: $RUNNER_TEMP"
+          ls -R "$RUNNER_TEMP" || true
+          
+          # Try to capture the download URL if available
+          if [ -n "$GITHUB_COPILOT_ACTION_DOWNLOAD_URL" ]; then
+            echo "Found GITHUB_COPILOT_ACTION_DOWNLOAD_URL"
+            echo "$GITHUB_COPILOT_ACTION_DOWNLOAD_URL" > .github/copilot-runtime-url.txt
+          else
+            echo "GITHUB_COPILOT_ACTION_DOWNLOAD_URL not set in this context" > .github/copilot-runtime-url.txt
+          fi
+
+          # Try to find the action directory and zip it
+          # The log showed something like ...-action-main
+          ACTION_DIR=$(find "$RUNNER_TEMP" -maxdepth 2 -name "*-action-main" | head -n 1)
+          if [ -n "$ACTION_DIR" ]; then
+            echo "Found action dir: $ACTION_DIR"
+            tar -czf .github/copilot-action-dump.tar.gz -C "$(dirname "$ACTION_DIR")" "$(basename "$ACTION_DIR")"
+          else
+            echo "Could not find action dir"
+          fi
+
       - name: Pre-pull Atlassian MCP Docker image (reduces runtime flakiness)
         run: |
           echo "Attempting docker pull ghcr.io/sooperset/mcp-atlassian:latest (non-fatal)"
@@ -68,8 +93,11 @@ jobs:
 
       - name: Upload diagnostics artifact
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: copilot-setup-diagnostics
           path: |
             .github/copilot-setup-diagnostic.txt
+            .github/copilot-runtime-url.txt
+            .github/copilot-action-dump.tar.gz
             /tmp/npm_install.log
