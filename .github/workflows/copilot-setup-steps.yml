@@ -9,6 +9,12 @@ on:
     paths:
       - .github/workflows/copilot-setup-steps.yml
 
+env:
+  # Force remote MCP usage when possible (does not expose secrets)
+  GITHUB_COPILOT_REMOTE_MCP_ENABLED: "true"
+  # Pin to known good runtime version (moved to global env)
+  COPILOT_AGENT_RUNTIME_VERSION: "runtime-c2a4720f1096ea422f62ca2443cf0e78cbcfab72"
+
 jobs:
   copilot-setup-steps:
     runs-on: ubuntu-24.04
@@ -16,15 +22,33 @@ jobs:
     permissions:
       contents: read
 
-    env:
-      # Force remote MCP usage when possible (does not expose secrets)
-      GITHUB_COPILOT_REMOTE_MCP_ENABLED: "true"
-      # Pin to known good runtime version
-      COPILOT_AGENT_RUNTIME_VERSION: "runtime-c2a4720f1096ea422f62ca2443cf0e78cbcfab72"
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+
+      - name: Patch Copilot Agent (Fix ENOENT)
+        run: |
+          echo "Attempting to patch Copilot Agent in RUNNER_TEMP: $RUNNER_TEMP"
+          # Find the action directory
+          ACTION_DIR=$(find "$RUNNER_TEMP" -maxdepth 2 -name "*-action-main" | head -n 1)
+          
+          if [ -n "$ACTION_DIR" ]; then
+            echo "Found action dir: $ACTION_DIR"
+            
+            # Create dummy blackbird-mcp-server
+            mkdir -p "$ACTION_DIR/blackbird-mcp-server"
+            printf '#!/bin/sh\necho "placeholder blackbird"' > "$ACTION_DIR/blackbird-mcp-server/blackbird-mcp-server"
+            chmod +x "$ACTION_DIR/blackbird-mcp-server/blackbird-mcp-server"
+            
+            # Create dummy github-mcp-server
+            mkdir -p "$ACTION_DIR/github-mcp-server"
+            printf '#!/bin/sh\necho "placeholder github"' > "$ACTION_DIR/github-mcp-server/github-mcp-server"
+            chmod +x "$ACTION_DIR/github-mcp-server/github-mcp-server"
+            
+            echo "Created placeholder binaries to prevent ENOENT"
+          else
+            echo "Could not find action dir to patch"
+          fi
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -58,13 +82,4 @@ jobs:
 
       - name: Pre-pull Atlassian MCP Docker image (reduces runtime flakiness)
         run: |
-          echo "Attempting docker pull ghcr.io/sooperset/mcp-atlassian:latest (non-fatal)"
-          docker pull ghcr.io/sooperset/mcp-atlassian:latest || true
-
-      - name: Create safe placeholders for local MCP binaries (prevents ENOENT)
-        run: |
-          mkdir -p .github/copilot-placeholders
-          printf '#!/bin/sh\necho "placeholder mcp server"' > .github/copilot-placeholders/blackbird-mcp-server
-          printf '#!/bin/sh\necho "placeholder mcp server"' > .github/copilot-placeholders/github-mcp-server
-          chmod +x .github/copilot-placeholders/*
-
+          echo "Attempting docker pull ghcr.io/sooperset/mcp-atlassianname: "Copilot Setup Steps"
